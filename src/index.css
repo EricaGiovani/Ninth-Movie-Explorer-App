@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 @theme {
-  --font-quicksand: 'Poppins', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
 
   /* Neutral / Gray */
   --color-gray-25: #FDFDFD;
@@ -43,17 +43,17 @@
   /* Display 2xl */
   --text-display-2xl: 48px;
   --text-display-2xl--line-height: 60px;
-  --text-display-2xl--letter-spacing: -2%;
+  --text-display-2xl--letter-spacing: -0.02em;
 
   /* Display xl */
   --text-display-xl: 40px;
   --text-display-xl--line-height: 48px;
-  --text-display-xl--letter-spacing: -2%;
+  --text-display-xl--letter-spacing: -0.02em;
 
   /* Display lg */
   --text-display-lg: 36px;
   --text-display-lg--line-height: 44px;
-  --text-display-lg--letter-spacing: -2%;
+  --text-display-lg--letter-spacing: -0.02em;
 
   /* Display md */
   --text-display-md: 32px;
