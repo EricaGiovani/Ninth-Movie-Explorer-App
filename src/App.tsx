@@ -9,9 +9,9 @@ function App() {
     <div className="min-h-screen bg-background">
       <header className="border-b">
         <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">Movie Explorer</h1>
+          <h1 className="text-2xl font-bold">Movie Explorer</h1> 
           {/* TODO: Add navigation menu */}
-        </div>
+        </div> 
       </header>
 
       <main className="container mx-auto px-4 py-8">
