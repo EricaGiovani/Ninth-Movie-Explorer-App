@@ -31,13 +31,16 @@ export interface Genre {
   name: string;
 }
 
-export interface MovieDetails extends Movie {
+export interface MovieDetails extends Omit<Movie, 'genre_ids'> {
   genres: Genre[];
   runtime: number;
   status: string;
   tagline: string;
   budget: number;
   revenue: number;
+  credits?: Credits;
+  videos?: VideoResponse;
+  similar?: MovieResponse;
 }
 
 export interface Cast {
