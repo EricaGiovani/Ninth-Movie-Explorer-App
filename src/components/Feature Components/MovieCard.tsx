@@ -13,7 +13,7 @@ export function MovieCard({ movie, rank }: MovieCardProps) {
 
   return (
     <Link to={`/movie/${movie.id}`} className="group gap-lg block">
-      <div className="relative overflow-hidden rounded-xl">
+      <div className="relative aspect-[2/3] overflow-hidden rounded-xl">
         {rank !== undefined && (
           <span className="absolute top-md left-md z-10 flex items-center justify-center w-8 h-8 rounded-full bg-gray-950/60 text-sm lg:text-md xl:text-lg font-semibold text-gray-25 backdrop-blur-md">
             {rank}
