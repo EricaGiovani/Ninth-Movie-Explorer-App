@@ -10,7 +10,7 @@ interface MovieGridProps {
 export function MovieGrid({ movies, isLoading, showRank = false }: MovieGridProps) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-xl">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-xl">
         {Array.from({ length: 10 }).map((_, i) => (
           <div key={i} className="space-y-md">
             <div className="aspect-[2/3] w-full animate-pulse rounded-xl bg-gray-900" />
@@ -32,7 +32,7 @@ export function MovieGrid({ movies, isLoading, showRank = false }: MovieGridProp
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-xl">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-xl">
       {movies.map((movie, index) => (
         <MovieCard key={movie.id} movie={movie} rank={showRank ? index + 1 : undefined} />
       ))}
