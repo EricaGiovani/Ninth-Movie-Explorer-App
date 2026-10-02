@@ -24,6 +24,20 @@
   --color-primary-300: #961200;
   --color-primary-400: #640C00;
 
+  /* shadcn/ui generic tokens */
+  --color-background: #0A0D12;
+  --color-foreground: #FDFDFD;
+  --color-primary: #961200;
+  --color-primary-foreground: #FDFDFD;
+  --color-secondary: #181D27;
+  --color-secondary-foreground: #FDFDFD;
+  --color-destructive: #DC2626;
+  --color-destructive-foreground: #FDFDFD;
+  --color-accent: #252B37;
+  --color-accent-foreground: #FDFDFD;
+  --color-input: #252B37;
+  --color-ring: #961200;
+
   /* Base */
   --color-white: #FFFFFF;
   --color-black: #000000;

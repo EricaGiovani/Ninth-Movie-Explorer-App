@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import arrowLeftIcon from '@/assets/icons/Logo Arrow Left.svg';
+import { Input } from '@/components/ui/input';
 
 interface SearchBarProps {
   value: string;
@@ -22,13 +23,13 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         </button>
 
         <div className="flex flex-1 items-center gap-2 bg-gray-950 border border-gray-800 rounded-2xl px-xl py-md">
-          <input
+          <Input
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Search Movie"
             autoFocus
-            className="bg-transparent text-sm md:text-md font-regular w-full text-white placeholder:text-gray-400 outline-none"
+            className="border-0 bg-transparent px-0 text-sm md:text-md text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
           />
         </div>
       </div>

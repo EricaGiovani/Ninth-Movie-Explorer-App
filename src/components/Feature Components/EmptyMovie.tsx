@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+
 
 interface EmptyStateProps {
   icon: string;
@@ -8,20 +10,25 @@ interface EmptyStateProps {
   actionTo?: string;
 }
 
-export function EmptyState({ icon, title, description, actionLabel, actionTo }: EmptyStateProps) {
+export function EmptyState({
+  icon,
+  title,
+  description,
+  actionLabel,
+  actionTo,
+}: EmptyStateProps) {
+
   return (
     <div className="flex flex-col items-center justify-center text-center min-h-[420px] md:min-h-[520px]">
-      <img src={icon} alt="" className="w-[160px] md:w-[200px]" />
+      <img src={icon} alt="" className="w-[160px] md:w-[200px]"/>
       <p className="mt-lg text-md font-semibold text-white">{title}</p>
+
       <p className="mt-xs text-sm font-regular text-gray-400">{description}</p>
 
       {actionLabel && actionTo && (
-        <Link
-          to={actionTo}
-          className="mt-3xl flex w-[200px] md:w-[300px] items-center justify-center rounded-full bg-primary-300 hover:bg-primary-400 transition-colors px-6 py-2.5 md:py-3 text-sm md:text-md font-semibold text-gray-25"
-        >
-          {actionLabel}
-        </Link>
+        <Button asChild className="mt-3xl w-[200px] rounded-full bg-primary-300 px-6 py-2.5 text-sm font-semibold text-gray-25 hover:bg-primary-400 md:w-[300px] md:py-3 md:text-md">
+          <Link to={actionTo}>{actionLabel}</Link>
+        </Button>
       )}
     </div>
   );
