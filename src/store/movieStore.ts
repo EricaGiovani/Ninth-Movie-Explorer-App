@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Movie } from '@/types/movie';
+import type { Movie, MovieDetails } from '@/types/movie';
 
 // TODO: Define your store state interface
 interface MovieStore {
-  favorites: Movie[];
-  addToFavorites: (movie: Movie) => void;
+  favorites: (Movie | MovieDetails)[];
+  addToFavorites: (movie: Movie | MovieDetails) => void;
   removeFromFavorites: (movieId: number) => void;
-  toggleFavorite: (movie: Movie) => void;
+  toggleFavorite: (movie: Movie | MovieDetails) => void;  // ← diubah di sini
   isFavorite: (movieId: number) => boolean;
   clearFavorites: () => void;
 

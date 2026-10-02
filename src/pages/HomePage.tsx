@@ -1,4 +1,3 @@
-// pages/HomePage.tsx
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { usePopularMovies, useNowPlayingMovies, useMovieVideos } from '@/hooks/useMovies';
