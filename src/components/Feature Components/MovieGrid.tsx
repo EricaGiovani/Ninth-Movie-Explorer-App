@@ -6,6 +6,7 @@ interface MovieGridProps {
   movies: Movie[];
   isLoading?: boolean;
   showRank?: boolean;
+  variant?: 'trending' | 'new-release';
 }
 
 export function MovieGrid({

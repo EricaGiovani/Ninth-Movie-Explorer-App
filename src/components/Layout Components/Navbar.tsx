@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import logoMovie from '@/assets/icons/Logo Movie.svg';
@@ -12,8 +12,15 @@ import { Button } from '@/components/ui/button';
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [desktopQuery, setDesktopQuery] = useState('');
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `text-md font-regular transition-colors hover:text-primary-300 ${
@@ -30,7 +37,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 backdrop-blur-sm transition-all duration-300">
+      <header className={`fixed inset-x-0 top-0 z-50 backdrop-blur-sm transition-all duration-300 ${isScrolled? 'bg-black/80 backdrop-blur-sm border-b border-gray-900':'bg-transparent'}`}>
         <nav className="flex items-center justify-between px-2xl md:px-11xl py-lg md:py-2xl">
 
           {/* Logo */}
