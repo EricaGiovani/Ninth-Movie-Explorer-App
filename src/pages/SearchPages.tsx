@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSearchMovies } from '@/hooks/useMovies';
+import { Button } from '@/components/ui/button';
 import { SearchBar } from '@/components/Feature Components/SearchBar';
 import { MovieListItem } from '@/components/Feature Components/MovieListItem';
 import { EmptyState } from '@/components/Feature Components/EmptyMovie';
@@ -49,13 +50,14 @@ export function SearchPage() {
 
             {data && page < data.total_pages && (
               <div className="flex justify-center">
-                <button
+                <Button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={isFetching}
-                  className="bg-gray-950 border border-gray-900 text-white text-sm font-semibold rounded-full w-[200px] h-[44px] disabled:opacity-50"
+                  variant="secondary"
+                  className="text-sm w-[200px] h-[44px]"
                 >
                   {isFetching ? 'Loading...' : 'Load More'}
-                </button>
+                </Button>
               </div>
             )}
           </div>

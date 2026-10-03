@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { usePopularMovies, useNowPlayingMovies, useMovieVideos } from '@/hooks/useMovies';
 import { MovieGrid } from '@/components/Feature Components/MovieGrid';
 import { getImageUrl } from '@/lib/utils';
@@ -42,23 +43,16 @@ export function HomePage() {
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-md md:gap-xl">
                   {trailer && (
-                    <a
-                      href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center gap-md bg-primary-300 hover:bg-primary-400 transition-colors font-semibold text-gray-25 text-sm lg:text-[15px] xl:text-md px-5 md:px-6 py-2.5 md:py-3 rounded-full w-full justify-center"
-                    >
-                      Watch Trailer
-                      <img src={playIcon} alt="" className="w-5 h-5 xl:w-6 xl:h-6" />
-                    </a>
+                    <Button asChild className="w-full text-sm lg:text-[15px] xl:text-md py-2.5 md:py-3">
+                      <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">Watch Trailer
+                        <img src={playIcon} alt="" className="w-5 h-5 xl:w-6 xl:h-6" />
+                      </a>
+                    </Button>
                   )}
 
-                  <Link
-                    to={`/movie/${heroMovie.id}`}
-                    className="text-sm lg:text-[15px] xl:text-md font-semibold px-5 md:px-6 py-2.5 md:py-3 rounded-full bg-gray-900 hover:bg-white/10 transition-colors text-gray-25 w-full text-center"
-                  >
-                    See Detail
-                  </Link>
+                  <Button asChild variant="secondary" className="w-full text-sm lg:text-[15px] xl:text-md py-2.5 md:py-3">
+                    <Link to={`/movie/${heroMovie.id}`}>See Detail</Link>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -95,13 +89,13 @@ export function HomePage() {
 
           {newReleaseData && newReleasePage < newReleaseData.total_pages && (
             <div className="flex justify-center mt-6xl">
-              <button
+              <Button
                 onClick={() => setNewReleasePage((p) => p + 1)}
                 disabled={isNewReleaseLoading}
-                className="bg-gray-950 border border-gray-900 text-white text-sm lg:text-[15px] xl:text-md font-semibold rounded-full w-[200px] h-[44px] disabled:opacity-50"
-              >
+                variant="secondary"
+                className="w-[200px] h-[44px] text-sm lg:text-[15px] xl:text-md">
                 {isNewReleaseLoading ? 'Loading...' : 'Load More'}
-              </button>
+              </Button>
             </div>
           )}
         </section>

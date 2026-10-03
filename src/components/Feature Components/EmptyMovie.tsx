@@ -26,7 +26,7 @@ export function EmptyState({
       <p className="mt-xs text-sm font-regular text-gray-400">{description}</p>
 
       {actionLabel && actionTo && (
-        <Button asChild className="mt-3xl w-[200px] rounded-full bg-primary-300 px-6 py-2.5 text-sm font-semibold text-gray-25 hover:bg-primary-400 md:w-[300px] md:py-3 md:text-md">
+        <Button asChild className="mt-3xl w-[200px] rounded-full px-6 py-2.5 text-sm font-semibold text-gray-25 hover:bg-primary-400 md:w-[300px] md:py-3 md:text-md">
           <Link to={actionTo}>{actionLabel}</Link>
         </Button>
       )}

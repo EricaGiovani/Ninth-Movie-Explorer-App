@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import { useMovieDetails, useMovieCredits, useMovieVideos } from '@/hooks/useMovies';
 import { useMovieStore } from '@/store/movieStore';
 import { getImageUrl, formatDate, formatRating } from '@/lib/utils';
@@ -21,21 +22,6 @@ export function MovieDetailPage() {
 
   const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
   const topCast = credits?.cast.slice(0, 6) ?? [];
-
-  const handleToggleFavorite = () => {
-    if (!movie) return;
-    toggleFavorite({
-      id: movie.id,
-      title: movie.title,
-      overview: movie.overview,
-      poster_path: movie.poster_path,
-      backdrop_path: movie.backdrop_path,
-      release_date: movie.release_date,
-      vote_average: movie.vote_average,
-      vote_count: movie.vote_count,
-      genre_ids: movie.genres.map((g) => g.id),
-    });
-  };
 
   if (isLoading) {
     return <div className="pt-32 px-2xl text-white">Loading...</div>;
@@ -84,28 +70,22 @@ export function MovieDetailPage() {
 
           <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-2 flex items-center gap-xl mt-xs md:mt-md">
             {trailer && (
-              <a
-                href={`https://www.youtube.com/watch?v=${trailer.key}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex flex-1 md:flex-none md:w-[230px] items-center justify-center gap-md rounded-full bg-primary-300 hover:bg-primary-400 transition-colors p-md text-sm md:text-[15px] xl:text-md font-semibold text-gray-25"
-              >
-                Watch Trailer
-                <img src={playIcon} alt="" className="w-4 h-4 xl:w-6 xl:h-6" />
-              </a>
+              <Button asChild className="flex-1 md:flex-none md:w-[230px] text-sm md:text-[15px] xl:text-md">
+                <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">Watch Trailer
+                  <img src={playIcon} alt="" className="w-4 h-4 xl:w-6 xl:h-6" />
+                </a>
+              </Button>
             )}
-            <button
-              onClick={handleToggleFavorite}
-              aria-label={isFavorite ? 'Hapus dari favorit' : 'Tambah ke favorit'}
-              aria-pressed={isFavorite}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-900 bg-gray-950/60 backdrop-blur-sm hover:bg-gray-900 transition-colors"
+            <Button
+            onClick={() => toggleFavorite(movie)}
+            aria-label={isFavorite ? 'Hapus dari favorit' : 'Tambah ke favorit'}
+            aria-pressed={isFavorite}
+            variant="secondary"
+            size="icon"
+            className="h-11 w-11 rounded-full bg-gray-950/60 backdrop-blur-sm hover:bg-gray-900"
             >
-              <img
-                src={heartIcon}
-                alt=""
-                className={`w-6 h-6 ${isFavorite ? 'opacity-100' : 'opacity-60'}`}
-              />
-            </button>
+            <img src={heartIcon} alt="" className={`w-6 h-6 ${isFavorite ? 'opacity-100' : 'opacity-60'}`} />
+            </Button>
           </div>
 
           <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-3 md:self-end grid grid-cols-2 gap-lg md:gap-2xl xl:mb-3xl">
