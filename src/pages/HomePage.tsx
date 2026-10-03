@@ -1,4 +1,3 @@
-// pages/HomePage.tsx
 import { Link } from 'react-router-dom';
 import { useState, useMemo } from 'react';
 import { useQueries } from '@tanstack/react-query';
@@ -78,23 +77,23 @@ export function HomePage() {
             <img
               src={getImageUrl(heroMovie.backdrop_path, 'original')}
               alt={heroMovie.title}
-              className="absolute inset-0 w-full h-full object-cover object-top"
+              className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
             <div className="absolute inset-x-0 bottom-0 z-10 px-2xl md:px-11xl pb-[clamp(64px,10vw,140px)]">
-              <div className="max-w-xl md:max-w-[660px] flex flex-col gap-lg md:gap-xl">
+              <div className="w-full max-w-full md:max-w-[660px] flex flex-col gap-lg md:gap-xl">
                 <div>
                   <h1 className="text-display-xs md:text-display-lg lg:text-display-xl xl:text-display-2xl font-bold mb-2 md:mb-4 text-gray-25">
                     {heroMovie.title}
                   </h1>
-                  <p className="text-sm lg:text-[15px] xl:text-md font-regular text-gray-400 line-clamp-3 md:line-clamp-none max-w-none md:max-w-[620px]">
+                  <p className="w-full max-w-full md:max-w-[620px] text-sm lg:text-[15px] xl:text-md font-regular text-gray-400">
                     {heroMovie.overview}
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-md md:gap-xl">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-md md:gap-xl xl:w-[476px] xl:h-[52px]">
                   {trailer && (
                     <Button asChild className="w-full rounded-full text-sm lg:text-[15px] xl:text-md py-2.5 md:py-3">
                       <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">
@@ -162,7 +161,7 @@ export function HomePage() {
                 onClick={() => setNewReleasePages((prev) => [...prev, prev.length + 1])}
                 disabled={isNewReleaseFetching}
                 variant="secondary"
-                className="w-[200px] h-[44px] text-sm lg:text-[15px] xl:text-md"
+                className="w-[200px] h-[44px] xl:w-[230px] h-[52px] rounded-full text-sm lg:text-[15px] xl:text-md"
               >
                 {isNewReleaseFetching ? 'Loading...' : 'Load More'}
               </Button>

@@ -37,7 +37,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`fixed inset-x-0 top-0 z-50 backdrop-blur-sm transition-all duration-300 ${isScrolled? 'bg-black/80 backdrop-blur-sm border-b border-gray-900':'bg-transparent'}`}>
+      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled? 'bg-background/60 backdrop-blur-md':'bg-transparent'}`}>
         <nav className="flex items-center justify-between px-2xl md:px-11xl py-lg md:py-2xl">
 
           {/* Logo */}
