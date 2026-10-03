@@ -75,3 +75,19 @@ export interface VideoResponse {
   id: number;
   results: Video[];
 }
+
+export interface ReleaseDate {
+  certification: string;
+  release_date: string;
+  type: number;
+}
+
+export interface ReleaseDateCountry {
+  iso_3166_1: string;
+  release_dates: ReleaseDate[];
+}
+
+export interface ReleaseDatesResponse {
+  id: number;
+  results: ReleaseDateCountry[];
+}

@@ -70,5 +70,12 @@ export const useMovieVideos = (movieId: number | undefined) => {
   });
 };
 
+export const useMovieReleaseDates = (movieId: number | undefined) => {
+  return useQuery({
+    queryKey: ['movie', movieId, 'release-dates'],
+    queryFn: () => movieService.getMovieReleaseDates(movieId as number),
+    enabled: !!movieId,
+  });
+};
 
 

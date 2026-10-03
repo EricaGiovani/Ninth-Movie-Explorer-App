@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useMovieDetails, useMovieCredits, useMovieVideos } from '@/hooks/useMovies';
+import { useMovieDetails, useMovieCredits, useMovieVideos, useMovieReleaseDates } from '@/hooks/useMovies';
 import { useMovieStore } from '@/store/movieStore';
 import { getImageUrl, formatDate, formatRating } from '@/lib/utils';
 import playIcon from '@/assets/icons/Logo Play.svg';
@@ -8,6 +8,7 @@ import heartIcon from '@/assets/icons/Logo heart.svg';
 import calendarIcon from '@/assets/icons/Logo Calender.svg';
 import starIcon from '@/assets/icons/Icon Star.svg';
 import videoIcon from '@/assets/icons/Logo Video.svg';
+import emojiIcon from '@/assets/icons/Logo Emoji Happy.svg';
 
 export function MovieDetailPage() {
   const { id } = useParams();
@@ -16,11 +17,22 @@ export function MovieDetailPage() {
   const { data: movie, isLoading } = useMovieDetails(movieId);
   const { data: credits } = useMovieCredits(movieId);
   const { data: videos } = useMovieVideos(movieId);
+  const { data: releaseDates } = useMovieReleaseDates(movieId);
 
   const toggleFavorite = useMovieStore((s) => s.toggleFavorite);
   const isFavorite = useMovieStore((s) => (movie ? s.isFavorite(movie.id) : false));
 
   const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
+
+  const usReleaseDates = releaseDates?.results.find(
+  (country) => country.iso_3166_1 === 'US'
+  );
+
+  const ageRating =
+  usReleaseDates?.release_dates.find(
+    (release) => release.certification
+  )?.certification || '—';
+
   const topCast = credits?.cast.slice(0, 6) ?? [];
 
   if (isLoading) {
@@ -88,7 +100,7 @@ export function MovieDetailPage() {
             </Button>
           </div>
 
-          <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-3 md:self-end grid grid-cols-2 gap-lg md:gap-2xl xl:mb-3xl">
+          <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-3 md:self-end grid grid-cols-3 gap-lg md:gap-2xl xl:mb-3xl">
             <div className="flex flex-col items-center justify-center gap-md rounded-2xl border border-gray-800 bg-black p-xl md:p-2xl">
               <img src={starIcon} alt="" className="w-6 h-6 xl:w-8 xl:h-8" />
               <p className="text-xs md:text-sm xl:text-md text-gray-300 font-regular">Rating</p>
@@ -101,6 +113,13 @@ export function MovieDetailPage() {
               <p className="text-xs md:text-sm xl:text-md text-gray-300 font-regular">Genre</p>
               <p className="text-lg md:text-[19px] xl:text-xl font-semibold text-gray-25 line-clamp-1">
                 {movie.genres[0]?.name ?? '—'}
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-md rounded-2xl border border-gray-800 bg-black p-xl md:p-2xl">
+              <img src={emojiIcon} alt="" className="w-6 h-6 xl:w-8 xl:h-8" />
+              <p className="text-xs md:text-sm xl:text-md text-gray-300 font-regular">Age</p>
+              <p className="text-lg md:text-[19px] xl:text-xl font-semibold text-gray-25">
+                {ageRating}
               </p>
             </div>
           </div>
