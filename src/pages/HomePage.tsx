@@ -132,7 +132,7 @@ export function HomePage() {
               </button>
 
               <div className="flex-1">
-                <MovieGrid movies={visibleTrending} isLoading={isTrendingLoading} variant="trending" showRank />
+                <MovieGrid movies={visibleTrending} isLoading={isTrendingLoading} variant="trending" showRank rankStart={trendingOffset}/>
               </div>
 
               <button

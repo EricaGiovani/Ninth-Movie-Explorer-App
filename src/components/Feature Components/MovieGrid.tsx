@@ -7,12 +7,14 @@ interface MovieGridProps {
   isLoading?: boolean;
   showRank?: boolean;
   variant?: 'trending' | 'new-release';
+  rankStart?: number;
 }
 
 export function MovieGrid({
   movies,
   isLoading,
   showRank = false,
+  rankStart = 0,
 }: MovieGridProps) {
   if (isLoading) {
     return (
@@ -50,7 +52,7 @@ export function MovieGrid({
         <MovieCard
           key={movie.id}
           movie={movie}
-          rank={showRank ? index + 1 : undefined}
+          rank={showRank ? rankStart + index + 1 : undefined}
         />
       ))}
     </div>
