@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useQueries } from '@tanstack/react-query';
 import { movieService } from '@/services/movieService';
 import { useMovieVideos } from '@/hooks/useMovies';
@@ -10,6 +10,20 @@ import playIcon from '@/assets/icons/Logo Play.svg';
 import arrowIcon from '@/assets/icons/Logo Arrow.svg';
 
 export function HomePage() {
+  // ===== DEVICE TYPE =====
+  const [deviceType, setDeviceType] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+
+  useEffect(() => {
+    const updateDeviceType = () => {
+      if (window.innerWidth < 768) setDeviceType('mobile');
+      else if (window.innerWidth < 1024) setDeviceType('tablet');
+      else setDeviceType('desktop');
+    };
+    updateDeviceType();
+    window.addEventListener('resize', updateDeviceType);
+    return () => window.removeEventListener('resize', updateDeviceType);
+  }, []);
+
   // ===== TRENDING NOW =====
   const [trendingPages, setTrendingPages] = useState([1]);
   const [trendingOffset, setTrendingOffset] = useState(0);
@@ -29,23 +43,26 @@ export function HomePage() {
   const isTrendingFetching = trendingQueries.some((q) => q.isFetching);
   const trendingTotalPages = trendingQueries.at(-1)?.data?.total_pages ?? 1;
 
-  const visibleTrending = allTrending.slice(trendingOffset, trendingOffset + 5);
+  const trendingWindowSize = { mobile: 2, tablet: 3, desktop: 5 }[deviceType];
+
+  const visibleTrending = allTrending.slice(trendingOffset, trendingOffset + trendingWindowSize);
   const canGoPrevTrending = trendingOffset > 0;
   const canGoNextTrending =
-    trendingOffset + 5 < allTrending.length || trendingPages.length < trendingTotalPages;
+    trendingOffset + trendingWindowSize < allTrending.length || trendingPages.length < trendingTotalPages;
 
   const handleTrendingNext = () => {
-    const nextOffset = trendingOffset + 5;
-    if (nextOffset + 5 > allTrending.length && trendingPages.length < trendingTotalPages) {
+    const nextOffset = trendingOffset + trendingWindowSize;
+    if (nextOffset + trendingWindowSize > allTrending.length && trendingPages.length < trendingTotalPages) {
       setTrendingPages((prev) => [...prev, prev.length + 1]);
     }
     setTrendingOffset(nextOffset);
   };
 
   const handleTrendingPrev = () => {
-    setTrendingOffset((prev) => Math.max(0, prev - 5));
+    setTrendingOffset((prev) => Math.max(0, prev - trendingWindowSize));
   };
 
+  // ===== NEW RELEASE =====
   const [newReleasePages, setNewReleasePages] = useState([1]);
 
   const newReleaseQueries = useQueries({
@@ -59,9 +76,20 @@ export function HomePage() {
     () => newReleaseQueries.flatMap((q) => q.data?.results ?? []),
     [newReleaseQueries]
   );
+
+  const moviesPerPage = { mobile: 8, tablet: 12, desktop: 15 }[deviceType];
+  const newReleaseLimit = newReleasePages.length * moviesPerPage;
+  const visibleNewRelease = allNewRelease.slice(0, newReleaseLimit);
+
   const isNewReleaseLoading = newReleaseQueries[0]?.isLoading ?? true;
   const isNewReleaseFetching = newReleaseQueries.some((q) => q.isFetching);
   const newReleaseTotalPages = newReleaseQueries.at(-1)?.data?.total_pages ?? 1;
+
+  const handleNewReleaseLoadMore = () => {
+    if (newReleasePages.length < newReleaseTotalPages) {
+      setNewReleasePages((prev) => [...prev, prev.length + 1]);
+    }
+  };
 
   // ===== HERO =====
   const heroMovie = allTrending[0];
@@ -77,7 +105,7 @@ export function HomePage() {
             <img
               src={getImageUrl(heroMovie.backdrop_path, 'original')}
               alt={heroMovie.title}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
@@ -121,27 +149,36 @@ export function HomePage() {
               Trending Now
             </h2>
 
-            <div className="flex items-center gap-md">
+            <div className="relative">
+              {/* Previous — kiri */}
               <button
                 onClick={handleTrendingPrev}
                 disabled={!canGoPrevTrending}
                 aria-label="Film sebelumnya"
-                className="hidden md:flex shrink-0 w-10 h-10 rounded-full bg-gray-900 items-center justify-center text-gray-25 hover:bg-gray-800 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="absolute left-0 top-[40%] -translate-y-1/2 -translate-x-1/2 z-20 flex w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 items-center justify-center text-gray-25 hover:bg-gray-800 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <img src={arrowIcon} alt="" className="w-7 h-7 rotate-180" />
+                <img src={arrowIcon} alt="" className="w-5 h-5 md:w-7 md:h-7 rotate-180" />
               </button>
 
-              <div className="flex-1">
-                <MovieGrid movies={visibleTrending} isLoading={isTrendingLoading} variant="trending" showRank rankStart={trendingOffset}/>
+              {/* Movies */}
+              <div className="px-10 md:px-12">
+                <MovieGrid
+                  movies={visibleTrending}
+                  isLoading={isTrendingLoading}
+                  variant="trending"
+                  showRank
+                  rankStart={trendingOffset}
+                />
               </div>
 
+              {/* Next — kanan */}
               <button
                 onClick={handleTrendingNext}
                 disabled={!canGoNextTrending || isTrendingFetching}
                 aria-label="Film berikutnya"
-                className="hidden md:flex shrink-0 w-10 h-10 rounded-full bg-gray-900 items-center justify-center text-gray-25 hover:bg-gray-800 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="absolute right-0 top-[40%] -translate-y-1/2 translate-x-1/2 z-20 flex w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-900 items-center justify-center text-gray-25 hover:bg-gray-800 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <img src={arrowIcon} alt="" className="w-7 h-7" />
+                <img src={arrowIcon} alt="" className="w-5 h-5 md:w-7 md:h-7" />
               </button>
             </div>
           </div>
@@ -153,15 +190,15 @@ export function HomePage() {
             New Release
           </h2>
 
-          <MovieGrid movies={allNewRelease} isLoading={isNewReleaseLoading} variant="new-release" />
+          <MovieGrid movies={visibleNewRelease} isLoading={isNewReleaseLoading} variant="new-release" />
 
           {newReleasePages.length < newReleaseTotalPages && (
             <div className="flex justify-center mt-6xl">
               <Button
-                onClick={() => setNewReleasePages((prev) => [...prev, prev.length + 1])}
+                onClick={handleNewReleaseLoadMore}
                 disabled={isNewReleaseFetching}
                 variant="secondary"
-                className="w-[200px] h-[44px] xl:w-[230px] h-[52px] rounded-full text-sm lg:text-[15px] xl:text-md"
+                className="w-[200px] h-[44px] xl:w-[230px] xl:h-[52px] rounded-full text-sm lg:text-[15px] xl:text-md"
               >
                 {isNewReleaseFetching ? 'Loading...' : 'Load More'}
               </Button>
