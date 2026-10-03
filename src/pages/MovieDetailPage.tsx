@@ -9,6 +9,7 @@ import calendarIcon from '@/assets/icons/Logo Calender.svg';
 import starIcon from '@/assets/icons/Icon Star.svg';
 import videoIcon from '@/assets/icons/Logo Video.svg';
 import emojiIcon from '@/assets/icons/Logo Emoji Happy.svg';
+import heartFillIcon from '@/assets/icons/Logo Red Heart.svg';
 
 export function MovieDetailPage() {
   const { id } = useParams();
@@ -96,7 +97,7 @@ export function MovieDetailPage() {
             size="icon"
             className="h-11 w-11 rounded-full bg-gray-950/60 backdrop-blur-sm hover:bg-gray-900"
             >
-            <img src={heartIcon} alt="" className={`w-6 h-6 ${isFavorite ? 'opacity-100' : 'opacity-60'}`} />
+            <img src={isFavorite ? heartFillIcon : heartIcon} alt="" className="w-6 h-6" />
             </Button>
           </div>
 

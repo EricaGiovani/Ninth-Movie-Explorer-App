@@ -193,7 +193,7 @@ export function HomePage() {
           <MovieGrid movies={visibleNewRelease} isLoading={isNewReleaseLoading} variant="new-release" />
 
           {newReleasePages.length < newReleaseTotalPages && (
-            <div className="relative z-20 flex justify-center -translate-y-9">
+            <div className="relative z-20 flex justify-center -translate-y-12">
               <Button
                 onClick={handleNewReleaseLoadMore}
                 disabled={isNewReleaseFetching}
