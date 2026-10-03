@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate} from 'react-router-dom';
 
 import logoMovie from '@/assets/icons/Logo Movie.svg';
 import searchIcon from '@/assets/icons/Logo Search.svg';
@@ -32,6 +32,7 @@ export function Navbar() {
 
     if (desktopQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(desktopQuery.trim())}`);
+      setDesktopQuery('');
     }
   };
 

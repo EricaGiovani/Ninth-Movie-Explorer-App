@@ -193,7 +193,7 @@ export function HomePage() {
           <MovieGrid movies={visibleNewRelease} isLoading={isNewReleaseLoading} variant="new-release" />
 
           {newReleasePages.length < newReleaseTotalPages && (
-            <div className="flex justify-center mt-6xl">
+            <div className="relative z-20 flex justify-center -translate-y-9">
               <Button
                 onClick={handleNewReleaseLoadMore}
                 disabled={isNewReleaseFetching}
@@ -204,6 +204,8 @@ export function HomePage() {
               </Button>
             </div>
           )}
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[600px] bg-gradient-to-b from-transparent via-black/80 to-black"></div>
         </section>
       </main>
     </div>
