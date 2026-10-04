@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate} from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 import logoMovie from '@/assets/icons/Logo Movie.svg';
 import searchIcon from '@/assets/icons/Logo Search.svg';
@@ -22,11 +23,6 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `text-md font-regular transition-colors hover:text-primary-300 ${
-      isActive ? 'text-primary-300' : 'text-white'
-    }`;
-
   const handleDesktopSearchSubmit = (e: React.FormEvent<HTMLFormElement>) =>  {
     e.preventDefault();
 
@@ -40,65 +36,74 @@ export function Navbar() {
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled? 'bg-background/60 backdrop-blur-md':'bg-transparent'}`}>
         <nav className="flex items-center justify-between px-2xl md:px-11xl py-lg md:py-2xl">
-
-          {/* Logo */}
+          {/* Logo + Menu */}
           <div className="gap-8xl flex items-center">
-            <Link to="/" className="flex items-center gap-[7.11px]">
-              <img src={logoMovie} alt="Movie Logo" className="w-7 h-7 xl:w-10 xl:h-10"/>
-              <span className="text-lg md:text-xl lg:text-display-xs xl:text-display-sm font-semibold text-gray-25">Movie</span>
-            </Link>
-
-            {/* Menu Desktop */}
-            <div className="hidden lg:flex items-center gap-6xl">
-              <NavLink to="/" end className={navLinkClass}>
-                Home
-              </NavLink>
-
-              <NavLink to="/favorites" className={navLinkClass}>
-                Favorites
-              </NavLink>
-            </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-[7.11px]">
+            <img src={logoMovie} alt="Movie Logo" className="w-7 h-7 xl:w-10 xl:h-10"/>
+            <span className="text-lg md:text-xl lg:text-display-xs xl:text-display-sm font-semibold text-gray-25">
+              Movie
+            </span>
+          </Link>
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center gap-6xl">
+            {[
+              { to: '/', label: 'Home', end: true },
+              { to: '/favorites', label: 'Favorites', end: false },
+            ].map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.end}
+              className="relative text-md font-regular text-white">
+              {({ isActive }) => (
+              <>
+              <span className={isActive ? 'text-primary-300' : ''}>
+                {link.label}
+              </span>
+              {isActive && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary-300"
+                  transition={{type: 'spring',stiffness: 400,damping: 30,}}/>
+              )}
+              </>
+            )}
+            </NavLink>
+            ))}
           </div>
-
+        </div>
           {/* Search Desktop */}
-          <form
-            onSubmit={handleDesktopSearchSubmit}
-            className="hidden md:flex items-center gap-2 bg-gray-950 border border-gray-800 rounded-2xl px-xl py-md w-64">
+          <form onSubmit={handleDesktopSearchSubmit}
+          className="hidden md:flex items-center gap-2 bg-gray-950 border border-gray-800 rounded-2xl px-xl py-md w-64">
             <img src={searchIcon} alt="Search icon" className="w-6 h-6"/>
-            <Input type="text" 
-            value={desktopQuery} 
-            onChange={(e) => setDesktopQuery(e.target.value)}
-            placeholder="Search Movie"
-            className="border-0 bg-transparent px-0 text-md font-regular text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
-            />
+            <Input
+              type="text"
+              value={desktopQuery}
+              onChange={(e) => setDesktopQuery(e.target.value)}
+              placeholder="Search Movie"
+              className="border-0 bg-transparent px-0 text-md font-regular text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"/>
           </form>
-
-          {/* Search + Hamburger */}
+          {/* Mobile Search + Hamburger */}
           <div className="flex items-center gap-3xl lg:hidden">
-
-            {/* Mobile Search */}
-            <Link to="/search" aria-label="Buka pencarian" className="flex md:hidden h-6 w-6 items-center justify-center">
-              <img src={searchIconBold} alt="Search" className="w-6 h-6"/>
-            </Link>
-
-            {/* Hamburger */}
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              aria-label="Buka menu"
-              onClick={() => setIsMenuOpen(true)}
-              className="flex lg:hidden h-10 w-10 text-white hover:bg-transparent">
-              <img
-                src={HamburgerIcon}
-                alt="Menu"
-                className="w-6 h-6"
-              />
-            </Button>
+          <Link
+            to="/search"
+            aria-label="Buka pencarian"
+            className="flex md:hidden h-6 w-6 items-center justify-center">
+            <img src={searchIconBold} alt="Search" className="w-6 h-6"/>
+          </Link>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label="Buka menu"
+            onClick={() => setIsMenuOpen(true)}
+            className="flex lg:hidden h-10 w-10 text-white hover:bg-transparent">
+            <img src={HamburgerIcon} alt="Menu" className="w-6 h-6"/>
+          </Button>
           </div>
         </nav>
       </header>
-
       {/* Mobile Menu */}
       <div className={`mobile-menu fixed inset-0 z-[60] bg-gray-950 transition-transform duration-300 ease-in-out lg:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
