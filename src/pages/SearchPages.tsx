@@ -25,7 +25,7 @@ export function SearchPage() {
   const [inputValue, setInputValue] = useState(queryFromUrl);
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, isFetching } = useSearchMovies(inputValue,page);
+  const { data, isLoading, isFetching, isError, error,} = useSearchMovies(inputValue,page);
 
   const handleInputChange = (value: string) => {setInputValue(value); setPage(1);};
   const handleBack = () => {setInputValue(''); navigate(-1);};
@@ -59,6 +59,7 @@ export function SearchPage() {
 
   const showNotFound = hasQuery && !isLoading && movies.length === 0;
   const showResults = hasQuery && movies.length > 0;
+  const showError = hasQuery && !isLoading && isError;
 
   return (
   <div className="min-h-screen bg-black">
@@ -112,6 +113,17 @@ export function SearchPage() {
           description="Try other keywords"
         />
       )}
+      {/* ERROR */}
+      {showError && (
+      <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
+        <h2 className="text-xl font-semibold text-white">
+          Something went wrong
+        </h2>
+        <p className="mt-md text-sm text-gray-400">
+          Failed to load movies. Please try again.
+        </p>
+      </div>
+    )}
     </main>
   </div>
 );
