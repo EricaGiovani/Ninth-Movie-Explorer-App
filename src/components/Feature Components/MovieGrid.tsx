@@ -1,5 +1,5 @@
-// components/Feature Components/MovieGrid.tsx
 import { MovieCard } from './MovieCard';
+import { motion } from 'framer-motion';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { Movie } from '@/types/movie';
 
@@ -14,6 +14,16 @@ interface MovieGridProps {
 const gridClasses = {
   trending: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-xl xl:gap-2xl',
   'new-release': 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-lg md:gap-xl lg:gap-2xl gap-y-6xl gap-x-2xl',
+};
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.04 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0 },
 };
 
 export function MovieGrid({
@@ -49,10 +59,12 @@ export function MovieGrid({
   }
 
   return (
-    <div className={`grid ${gridClass}`}>
+    <motion.div variants={container} initial="hidden" animate="show" className={`grid ${gridClass}`}>
       {movies.map((movie, index) => (
-        <MovieCard key={movie.id} movie={movie} rank={showRank ? rankStart + index + 1 : undefined} />
+        <motion.div key={movie.id} variants={item}>
+          <MovieCard movie={movie} rank={showRank ? rankStart + index + 1 : undefined} />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
