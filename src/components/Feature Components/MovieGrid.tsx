@@ -7,12 +7,16 @@ interface MovieGridProps {
   isLoading?: boolean;
   showRank?: boolean;
   rankStart?: number;
-  variant?: 'trending' | 'new-release';
+  variant?: 'trending' | 'new-release' | 'similar';
 }
 
 const gridClasses = {
   trending: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-xl xl:gap-2xl',
+
   'new-release': 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-lg md:gap-xl lg:gap-2xl gap-y-6xl gap-x-2xl',
+
+  similar:'grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-xl xl:gap-2xl',
+
 };
 
 const container = {

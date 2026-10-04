@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useMovieDetails, useMovieCredits, useMovieVideos, useMovieReleaseDates } from '@/hooks/useMovies';
+import { useMovieDetails, useMovieCredits, useMovieVideos, useMovieReleaseDates, useSimilarMovies } from '@/hooks/useMovies';
 import { useMovieStore } from '@/store/movieStore';
 import { getImageUrl, formatDate, formatRating } from '@/lib/utils';
 import playIcon from '@/assets/icons/Logo Play.svg';
@@ -11,6 +11,7 @@ import videoIcon from '@/assets/icons/Logo Video.svg';
 import emojiIcon from '@/assets/icons/Logo Emoji Happy.svg';
 import heartFillIcon from '@/assets/icons/Logo Red Heart.svg';
 import {motion, AnimatePresence} from 'framer-motion';
+import { MovieGrid } from '@/components/Feature Components/MovieGrid';
 
 
 export function MovieDetailPage() {
@@ -21,6 +22,8 @@ export function MovieDetailPage() {
   const { data: credits } = useMovieCredits(movieId);
   const { data: videos } = useMovieVideos(movieId);
   const { data: releaseDates } = useMovieReleaseDates(movieId);
+  const { data: similarMovies, isLoading: isSimilarLoading } =
+  useSimilarMovies(movieId);
 
   const toggleFavorite = useMovieStore((s) => s.toggleFavorite);
   const isFavorite = useMovieStore((s) => (movie ? s.isFavorite(movie.id) : false));
@@ -199,6 +202,25 @@ export function MovieDetailPage() {
             </div>
           </motion.div>
         )}
+
+        {/* Similar Movies */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-4xl md:mt-7xl">
+          <h2 className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">
+            Similar Movies
+          </h2>
+
+          <div className="mt-3xl md:mt-4xl">
+            <MovieGrid
+              movies={similarMovies?.results ?? []}
+              isLoading={isSimilarLoading}
+              variant="similar"/>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
