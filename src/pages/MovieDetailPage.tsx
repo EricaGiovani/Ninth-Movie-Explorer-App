@@ -10,6 +10,7 @@ import starIcon from '@/assets/icons/Icon Star.svg';
 import videoIcon from '@/assets/icons/Logo Video.svg';
 import emojiIcon from '@/assets/icons/Logo Emoji Happy.svg';
 import heartFillIcon from '@/assets/icons/Logo Red Heart.svg';
+import {motion} from 'framer-motion';
 
 export function MovieDetailPage() {
   const { id } = useParams();
@@ -127,22 +128,25 @@ export function MovieDetailPage() {
         </div>
 
         {/* Overview */}
-        <div className="mt-4xl md:mt-7xl">
-          <p className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">
-            Overview
-          </p>
-          <p className="mt-md text-sm xl:text-md font-regular text-gray-400">
-            {movie.overview}
-          </p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5 }}
+          className="mt-4xl md:mt-7xl">
+            <p className="...">Overview</p>
+            <p className="...">{movie.overview}</p>
+        </motion.div>
 
         {/* Cast & Crew */}
         {topCast.length > 0 && (
-          <div className="mt-4xl md:mt-7xl">
-            <h2 className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">
-              Cast &amp; Crew
-            </h2>
-
+          <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mt-4xl md:mt-7xl">
+          <h2 className="...">Cast &amp; Crew</h2>
             <div className="mt-3xl md:mt-4xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4xl gap-y-3xl">
               {topCast.map((person) => (
                 <div key={person.id} className="flex items-center gap-lg">
@@ -162,7 +166,7 @@ export function MovieDetailPage() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>
