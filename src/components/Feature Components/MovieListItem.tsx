@@ -1,6 +1,8 @@
+// components/Feature Components/MovieListItem.tsx
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
+import { useMovieVideos } from '@/hooks/useMovies';
 import { getImageUrl, formatRating } from '@/lib/utils';
 import type { Movie, MovieDetails } from '@/types/movie';
 import playIcon from '@/assets/icons/Logo Play.svg';
@@ -11,48 +13,69 @@ interface MovieListItemProps {
   rightAction?: ReactNode;
 }
 
-export function MovieListItem({
-  movie,
-  rightAction,
-}: MovieListItemProps) {
-  return (
-    <article className="relative grid grid-cols-[105px_1fr] md:grid-cols-[188px_1fr] md:grid-rows-[auto_1fr] gap-x-lg md:gap-x-4xl gap-y-lg border-b border-gray-800 pb-3xl md:pb-4xl">
-      <Link to={`/movie/${movie.id}`}>
-        <img
-          src={getImageUrl(movie.poster_path, 'w342')}
-          alt={`Poster ${movie.title}`}
-          className="col-start-1 row-start-1 md:row-span-2 w-full aspect-[2/3] md:aspect-auto md:h-full object-cover rounded-md lg:rounded-xl"
-        />
-      </Link>
+export function MovieListItem({ movie, rightAction }: MovieListItemProps) {
+  const { data: videos } = useMovieVideos(movie.id);
+  const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
 
-      <div className="col-start-2 row-start-1 min-w-0 self-start md:pr-6xl">
-        <Link to={`/movie/${movie.id}`}>
-          <h2 className="text-md md:text-xl xl:text-display-xs font-bold text-gray-25">
-            {movie.title}
-          </h2>
+  return (
+    <article className="border-b border-gray-800 pb-3xl md:pb-4xl">
+      <div className="flex gap-lg md:gap-4xl">
+        <Link to={`/movie/${movie.id}`} className="shrink-0">
+          <img
+            src={getImageUrl(movie.poster_path, 'w342')}
+            alt={`Poster ${movie.title}`}
+            className="w-[105px] md:w-[188px] aspect-[2/3] md:h-full object-cover rounded-md lg:rounded-xl"
+          />
         </Link>
 
-        <div className="flex items-center gap-xs mt-xs">
-          <img src={starIcon} alt="" className="w-4 h-4 md:w-6 md:h-6"/>
-          <span className="text-sm md:text-md xl:text-lg font-medium text-gray-25">
-            {formatRating(movie.vote_average)}/10
-          </span>
-        </div>
+        <div className="min-w-0 flex-1 flex flex-col">
+          <Link to={`/movie/${movie.id}`}>
+            <h2 className="text-md md:text-xl xl:text-display-xs font-bold text-gray-25">
+              {movie.title}
+            </h2>
+          </Link>
 
-        <p className="mt-xs md:mt-md text-sm md:text-[15px] xl:text-md text-gray-400 line-clamp-2">
-          {movie.overview}
-        </p>
+          <div className="flex items-center gap-xs mt-xs">
+            <img src={starIcon} alt="" className="w-4 h-4 md:w-6 md:h-6" />
+            <span className="text-sm md:text-md xl:text-lg font-medium text-gray-25">
+              {formatRating(movie.vote_average)}/10
+            </span>
+          </div>
+
+          <p className="mt-xs md:mt-md text-sm md:text-[15px] xl:text-md text-gray-400 line-clamp-2">
+            {movie.overview}
+          </p>
+
+          <div className="hidden md:flex items-center gap-xl mt-md">
+            {trailer && (
+              <Button
+                asChild
+                className="w-[230px] rounded-full bg-primary-300 hover:bg-primary-400 transition-colors px-6 py-3 text-[15px] xl:text-md font-semibold text-gray-25"
+              >
+                <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">
+                  Watch Trailer
+                  <img src={playIcon} alt="" className="w-6 h-6" />
+                </a>
+              </Button>
+            )}
+            {rightAction}
+          </div>
+        </div>
       </div>
 
-      <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-2 self-start flex items-center gap-xl mt-xs md:mt-md">
-        <Button asChild
-          className="flex flex-1 md:flex-none md:w-[230px] items-center justify-center gap-md rounded-full bg-primary-300 hover:bg-primary-400 transition-colors p-md text-sm md:text-[15px] xl:text-md font-semibold text-gray-25">
-          <Link to={`/movie/${movie.id}`}>
-            Watch Trailer
-            <img src={playIcon} alt="" className="w-4 h-4 xl:w-6 xl:h-6"/>
-          </Link>
-        </Button>
-          {rightAction}
+      <div className="flex md:hidden items-center gap-xl mt-xl">
+        {trailer && (
+          <Button
+            asChild
+            className="flex-1 rounded-full bg-primary-300 hover:bg-primary-400 transition-colors px-5 py-2.5 text-sm font-semibold text-gray-25"
+          >
+            <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">
+              Watch Trailer
+              <img src={playIcon} alt="" className="w-4 h-4" />
+            </a>
+          </Button>
+        )}
+        {rightAction}
       </div>
     </article>
   );

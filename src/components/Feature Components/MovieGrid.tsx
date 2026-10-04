@@ -1,6 +1,5 @@
 import { MovieCard } from './MovieCard';
 import { motion } from 'framer-motion';
-import { Skeleton } from '@/components/ui/skeleton';
 import type { Movie } from '@/types/movie';
 
 interface MovieGridProps {
