@@ -39,7 +39,14 @@ export function MovieDetailPage() {
     (release) => release.certification
   )?.certification || '—';
 
-  const topCast = credits?.cast.slice(0, 6) ?? [];
+  const castAndCrew = [
+  ...(credits?.cast.slice(0, 4) ?? []),
+  ...(credits?.crew
+    .filter((person) =>
+      ['Director', 'Writer', 'Screenplay', 'Producer'].includes(person.job)
+    )
+    .slice(0, 2) ?? []),
+  ];
 
   if (isLoading) {
     return (
@@ -173,31 +180,34 @@ export function MovieDetailPage() {
         </motion.div>
 
         {/* Cast & Crew */}
-        {topCast.length > 0 && (
+        {castAndCrew.length > 0 && (
           <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mt-4xl md:mt-7xl">
-          <h2 className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">Cast &amp; Crew</h2>
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.5 }}
+            className="mt-4xl md:mt-7xl">
+            <h2 className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">
+              Cast &amp; Crew
+            </h2>
+
             <div className="mt-3xl md:mt-4xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4xl gap-y-3xl">
-              {topCast.map((person) => (
-                <div key={person.id} className="flex items-center gap-lg">
+              {castAndCrew.map((person) => (
+                <div key={`${person.id}-${'character' in person ? person.character : person.job}`}
+                  className="flex items-center gap-lg">
                   <img
                     src={getImageUrl(person.profile_path, 'w185')}
                     alt={person.name}
-                    className="w-[55px] h-[84px] xl:w-[69px] xl:h-[104px] shrink-0 rounded-md xl:rounded-lg object-cover"
-                  />
+                    className="w-[55px] md:w-[69px] aspect-[2/3] object-cover rounded-md"/>
                   <div className="min-w-0">
-                    <p className="text-sm md:text-[15px] xl:text-md font-semibold text-gray-25">
+                    <p className="text-sm md:text-md font-semibold text-gray-25">
                       {person.name}
                     </p>
-                    <p className="text-sm md:text-[15px] xl:text-md text-gray-400 font-regular">
-                      {person.character}
+                    <p className="text-xs md:text-sm text-gray-400">
+                      {'character' in person ? person.character : person.job}
                     </p>
                   </div>
-                </div>
+                  </div>
               ))}
             </div>
           </motion.div>
@@ -211,7 +221,7 @@ export function MovieDetailPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-4xl md:mt-7xl">
           <h2 className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">
-            Similar Movies
+            More Like This 
           </h2>
 
           <div className="mt-3xl md:mt-4xl">

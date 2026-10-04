@@ -1,4 +1,3 @@
-// components/Feature Components/MovieListItem.tsx
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
@@ -18,7 +17,7 @@ export function MovieListItem({ movie, rightAction }: MovieListItemProps) {
   const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
 
   return (
-    <article className="border-b border-gray-800 pb-3xl md:pb-4xl">
+    <article className="relative border-b border-gray-800 pb-3xl md:pb-4xl">
       <div className="flex gap-lg md:gap-4xl">
         <Link to={`/movie/${movie.id}`} className="shrink-0">
           <img
