@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useSearchMovies } from '@/hooks/useMovies';
 import { Button } from '@/components/ui/button';
@@ -7,9 +7,18 @@ import { MovieListItem } from '@/components/Feature Components/MovieListItem';
 import { EmptyState } from '@/components/Feature Components/EmptyMovie';
 import notFoundIcon from '@/assets/icons/Logo Frame.svg';
 
+type Option =
+  |'default'
+  |'rating-highest'
+  |'rating-lowest'
+  |'date-newest'
+  |'date-oldest'
+  |'popularity-desc';
+
 export function SearchPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [sortBy, setSortBy] = useState<Option>('default');
 
   const queryFromUrl = searchParams.get('q') ?? '';
 
@@ -21,7 +30,30 @@ export function SearchPage() {
   const handleInputChange = (value: string) => {setInputValue(value); setPage(1);};
   const handleBack = () => {setInputValue(''); navigate(-1);};
 
-  const movies = data?.results ?? [];
+  const movies = useMemo(() => data?.results ?? [], [data?.results]);
+
+  const sortedMovies = useMemo(() => {
+  const result = [...movies];
+  switch (sortBy) {
+    case 'rating-highest':
+      return result.sort((a, b) => b.vote_average - a.vote_average);
+    case 'rating-lowest':
+      return result.sort((a, b) => a.vote_average - b.vote_average);
+    case 'date-newest':
+      return result.sort((a, b) =>
+        (b.release_date || '').localeCompare(a.release_date || '')
+      );
+    case 'date-oldest':
+      return result.sort((a, b) =>
+        (a.release_date || '').localeCompare(b.release_date || '')
+      );
+    case 'popularity-desc':
+      return result.sort((a, b) => b.popularity - a.popularity);
+    default:
+      return result;
+  }
+}, [movies, sortBy]);
+
 
   const hasQuery = inputValue.trim().length > 0;
 
@@ -29,47 +61,58 @@ export function SearchPage() {
   const showResults = hasQuery && movies.length > 0;
 
   return (
-    <div className="min-h-screen bg-black">
-      <SearchBar
-        value={inputValue}
-        onChange={handleInputChange}
-        onBack={handleBack}
-      />
+  <div className="min-h-screen bg-black">
+    <SearchBar
+      value={inputValue}
+      onChange={handleInputChange}
+      onBack={handleBack}
+    />
 
-      <main className="px-2xl md:px-11xl py-4xl md:py-6xl min-h-[calc(100vh_-_80px)]">
-        {/* SEARCH RESULTS */}
-        {showResults && (
-          <div className="flex flex-col space-y-4xl md:space-y-6xl">
-            {movies.map((movie) => (
-              <MovieListItem
-                key={movie.id}
-                movie={movie}
-              />
-            ))}
-            {/* LOAD MORE */}
-            {data && page < data.total_pages && (
-              <div className="flex justify-center">
-                <Button
-                  onClick={() => setPage((p) => p + 1)}
-                  disabled={isFetching}
-                  variant="secondary"
-                  className="w-[200px] h-[44px] text-sm"
-                >
-                  {isFetching ? 'Loading...' : 'Load More'}
-                </Button>
-              </div>
-            )}
+    <main className="px-2xl md:px-11xl py-4xl md:py-6xl min-h-[calc(100vh_-_80px)]">
+      {showResults && (
+        <div className="flex flex-col space-y-4xl md:space-y-6xl">
+
+          <div className="flex justify-end">
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value as Option)}
+              className="rounded-2xl border border-gray-900 bg-background/60 backdrop-blur-md px-xl py-md text-sm text-white outline-none focus:border-primary-300">
+              <option value="default">Sort By</option>
+              <option value="rating-highest">Highest Rated</option>
+              <option value="rating-lowest">Lowest Rated</option>
+              <option value="date-newest">Newest</option>
+              <option value="date-oldest">Oldest</option>
+              <option value="popularity-desc">Most Popular</option>
+            </select>
           </div>
-        )}
-        {/* NO RESULT */}
-        {showNotFound && (
-          <EmptyState
-            icon={notFoundIcon}
-            title="Data Not Found"
-            description="Try other keywords"
-          />
-        )}
-      </main>
-    </div>
-  );
+
+          {sortedMovies.map((movie) => (
+            <MovieListItem
+              key={movie.id}
+              movie={movie}
+            />
+          ))}
+
+          {data && page < data.total_pages && (
+            <div className="flex justify-center">
+              <Button
+                onClick={() => setPage((p) => p + 1)}
+                disabled={isFetching}
+                variant="secondary"
+                className="w-[200px] h-[44px] text-sm">
+                {isFetching ? 'Loading...' : 'Load More'}
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+      {/* NO RESULT */}
+      {showNotFound && (
+        <EmptyState
+          icon={notFoundIcon}
+          title="Data Not Found"
+          description="Try other keywords"
+        />
+      )}
+    </main>
+  </div>
+);
 }
