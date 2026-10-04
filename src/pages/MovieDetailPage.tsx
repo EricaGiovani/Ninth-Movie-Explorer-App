@@ -10,7 +10,8 @@ import starIcon from '@/assets/icons/Icon Star.svg';
 import videoIcon from '@/assets/icons/Logo Video.svg';
 import emojiIcon from '@/assets/icons/Logo Emoji Happy.svg';
 import heartFillIcon from '@/assets/icons/Logo Red Heart.svg';
-import {motion} from 'framer-motion';
+import {motion, AnimatePresence} from 'framer-motion';
+
 
 export function MovieDetailPage() {
   const { id } = useParams();
@@ -38,7 +39,28 @@ export function MovieDetailPage() {
   const topCast = credits?.cast.slice(0, 6) ?? [];
 
   if (isLoading) {
-    return <div className="pt-32 px-2xl text-white">Loading...</div>;
+    return (
+      <div className="flex min-h-[300px] items-center justify-center">
+        <div className="flex items-center">
+          <p className="text-md font-medium text-gray-400">
+            Loading
+          </p>
+          {[0, 1, 2].map((dot) => (
+            <motion.span
+              key={dot}
+              animate={{ opacity: [0.2, 1, 0.2] }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                delay: dot * 0.2,
+                ease: 'easeInOut',
+              }}
+              className="text-md font-medium text-gray-400">
+            </motion.span>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (!movie) {
@@ -84,21 +106,30 @@ export function MovieDetailPage() {
 
           <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-2 flex items-center gap-xl mt-xs md:mt-md">
             {trailer && (
-              <Button asChild className="flex-1 md:flex-none md:w-[230px] text-sm md:text-[15px] xl:text-md">
+              <Button asChild className="flex-1 md:flex-none md:w-[230px] text-sm md:text-[15px] xl:text-md rounded-full">
                 <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">Watch Trailer
                   <img src={playIcon} alt="" className="w-4 h-4 xl:w-6 xl:h-6" />
                 </a>
               </Button>
             )}
             <Button
-            onClick={() => toggleFavorite(movie)}
-            aria-label={isFavorite ? 'Hapus dari favorit' : 'Tambah ke favorit'}
-            aria-pressed={isFavorite}
-            variant="secondary"
-            size="icon"
-            className="h-11 w-11 rounded-full bg-gray-950/60 backdrop-blur-sm hover:bg-gray-900"
-            >
-            <img src={isFavorite ? heartFillIcon : heartIcon} alt="" className="w-6 h-6" />
+              onClick={() => toggleFavorite(movie)}
+              aria-label={isFavorite ? 'Hapus dari favorit' : 'Tambah ke favorit'}
+              aria-pressed={isFavorite}
+              variant="secondary"
+              size="icon"
+              className="h-11 w-11 rounded-full bg-gray-950/60 backdrop-blur-sm hover:bg-gray-900">
+              <AnimatePresence mode="popLayout">
+                <motion.img
+                  key={isFavorite ? 'filled' : 'outline'}
+                  src={isFavorite ? heartFillIcon : heartIcon}
+                  alt=""
+                  initial={{ scale: 0 }}
+                  animate={{ scale: [0, 1.4, 1] }}
+                  exit={{ scale: 0, transition: { duration: 0.1 } }}
+                  transition={{ duration: 0.4, times: [0, 0.5, 1], ease: 'easeOut' }}
+                  className="w-6 h-6"/>
+              </AnimatePresence>
             </Button>
           </div>
 
@@ -134,8 +165,8 @@ export function MovieDetailPage() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5 }}
           className="mt-4xl md:mt-7xl">
-            <p className="...">Overview</p>
-            <p className="...">{movie.overview}</p>
+            <h2 className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">Overview</h2>
+            <p className="mt-md text-sm xl:text-md font-regular text-gray-400">{movie.overview}</p>
         </motion.div>
 
         {/* Cast & Crew */}
@@ -146,7 +177,7 @@ export function MovieDetailPage() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mt-4xl md:mt-7xl">
-          <h2 className="...">Cast &amp; Crew</h2>
+          <h2 className="text-xl md:text-display-xs lg:text-display-sm xl:text-display-md font-bold text-gray-25">Cast &amp; Crew</h2>
             <div className="mt-3xl md:mt-4xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-4xl gap-y-3xl">
               {topCast.map((person) => (
                 <div key={person.id} className="flex items-center gap-lg">

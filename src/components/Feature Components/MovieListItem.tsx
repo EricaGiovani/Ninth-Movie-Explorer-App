@@ -16,16 +16,16 @@ export function MovieListItem({
   rightAction,
 }: MovieListItemProps) {
   return (
-    <article className="relative grid grid-cols-[105px_1fr] md:grid-cols-[188px_1fr] md:grid-rows-[auto_1fr] gap-x-lg md:gap-x-4xl gap-y-lg items-start border-b border-gray-800 pb-3xl md:pb-4xl">
+    <article className="relative grid grid-cols-[105px_1fr] md:grid-cols-[188px_1fr] md:grid-rows-[auto_1fr] gap-x-lg md:gap-x-4xl gap-y-lg border-b border-gray-800 pb-3xl md:pb-4xl">
       <Link to={`/movie/${movie.id}`}>
         <img
           src={getImageUrl(movie.poster_path, 'w342')}
           alt={`Poster ${movie.title}`}
-          className="col-start-1 row-start-1 md:row-span-2 w-full aspect-[2/3] object-cover rounded-md lg:rounded-xl"
+          className="col-start-1 row-start-1 md:row-span-2 w-full aspect-[2/3] md:aspect-auto md:h-full object-cover rounded-md lg:rounded-xl"
         />
       </Link>
 
-      <div className="col-start-2 row-start-1 min-w-0 md:pr-6xl">
+      <div className="col-start-2 row-start-1 min-w-0 self-start md:pr-6xl">
         <Link to={`/movie/${movie.id}`}>
           <h2 className="text-md md:text-xl xl:text-display-xs font-bold text-gray-25">
             {movie.title}
@@ -44,22 +44,15 @@ export function MovieListItem({
         </p>
       </div>
 
-      <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-2 flex items-center gap-xl md:self-start">
-        <Button
-          asChild
-          className="flex flex-1 md:flex-none md:w-[230px] items-center justify-center gap-md rounded-full bg-primary-300 hover:bg-primary-400 transition-colors p-md text-sm md:text-[15px] xl:text-md font-semibold text-gray-25"
-        >
+      <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-2 self-start flex items-center gap-xl mt-xs md:mt-md">
+        <Button asChild
+          className="flex flex-1 md:flex-none md:w-[230px] items-center justify-center gap-md rounded-full bg-primary-300 hover:bg-primary-400 transition-colors p-md text-sm md:text-[15px] xl:text-md font-semibold text-gray-25">
           <Link to={`/movie/${movie.id}`}>
             Watch Trailer
-            <img
-              src={playIcon}
-              alt=""
-              className="w-4 h-4 xl:w-6 xl:h-6"
-            />
+            <img src={playIcon} alt="" className="w-4 h-4 xl:w-6 xl:h-6"/>
           </Link>
         </Button>
-
-        {rightAction}
+          {rightAction}
       </div>
     </article>
   );

@@ -200,12 +200,12 @@ export function HomePage() {
           <MovieGrid movies={visibleNewRelease} isLoading={isNewReleaseLoading} variant="new-release" />
 
           {newReleasePages.length < newReleaseTotalPages && (
-            <div className="relative z-20 flex justify-center -translate-y-12">
+            <div className="relative z-20 flex justify-center -translate-y-18">
               <Button
                 onClick={handleNewReleaseLoadMore}
                 disabled={isNewReleaseFetching}
                 variant="secondary"
-                className="w-[200px] h-[44px] xl:w-[230px] xl:h-[52px] rounded-full text-sm lg:text-[15px] xl:text-md"
+                className="w-[200px] h-[44px] xl:w-[230px] xl:h-[52px] rounded-full text-sm lg:text-[15px] xl:text-md bg-background/60 border border-gray-900 text-gray-25 backdrop-blur-md"
               >
                 {isNewReleaseFetching ? 'Loading...' : 'Load More'}
               </Button>

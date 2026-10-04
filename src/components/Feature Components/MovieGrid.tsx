@@ -37,25 +37,49 @@ export function MovieGrid({
 
   if (isLoading) {
     return (
-      <div className={`grid ${gridClass}`}>
-        {Array.from({ length: 10 }).map((_, i) => (
-          <div key={i} className="space-y-md">
-            <Skeleton className="aspect-[2/3] w-full rounded-xl bg-gray-900" />
-            <Skeleton className="h-4 w-3/4 bg-gray-900" />
-            <Skeleton className="h-3 w-1/3 bg-gray-900" />
-          </div>
+    <div className="flex min-h-[300px] items-center justify-center">
+      <div className="flex items-center">
+        <p className="text-md font-medium text-gray-400">
+          Loading
+        </p>
+
+        {[0, 1, 2].map((dot) => (
+          <motion.span
+            key={dot}
+            animate={{ opacity: [0.2, 1, 0.2] }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              delay: dot * 0.2,
+              ease: 'easeInOut',
+            }}
+            className="text-md font-medium text-gray-400"
+          >
+            .
+          </motion.span>
         ))}
       </div>
-    );
+    </div>
+  );
   }
 
   if (movies.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-800 py-6xl text-center">
-        <p className="text-sm md:text-md xl:text-lg font-semibold text-gray-25">Data Not Found</p>
-        <p className="mt-xs text-xs md:text-sm xl:text-md text-gray-400">Try other keywords</p>
-      </div>
-    );
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-800 py-6xl text-center"
+    >
+      <p className="text-sm md:text-md xl:text-lg font-semibold text-gray-25">
+        Data Not Found
+      </p>
+
+      <p className="mt-xs text-xs md:text-sm xl:text-md text-gray-400">
+        Try other keywords
+      </p>
+    </motion.div>
+  );
   }
 
   return (
