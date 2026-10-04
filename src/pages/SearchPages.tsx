@@ -25,7 +25,7 @@ export function SearchPage() {
   const [inputValue, setInputValue] = useState(queryFromUrl);
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, isFetching, isError, error,} = useSearchMovies(inputValue,page);
+  const { data, isLoading, isFetching, isError} = useSearchMovies(inputValue,page);
 
   const handleInputChange = (value: string) => {setInputValue(value); setPage(1);};
   const handleBack = () => {setInputValue(''); navigate(-1);};
@@ -57,7 +57,7 @@ export function SearchPage() {
 
   const hasQuery = inputValue.trim().length > 0;
 
-  const showNotFound = hasQuery && !isLoading && movies.length === 0;
+  const showNotFound = hasQuery && !isLoading && !isError && movies.length === 0;
   const showResults = hasQuery && movies.length > 0;
   const showError = hasQuery && !isLoading && isError;
 
