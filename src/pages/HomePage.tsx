@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { getImageUrl } from '@/lib/utils';
 import playIcon from '@/assets/icons/Logo Play.svg';
 import arrowIcon from '@/assets/icons/Logo Arrow.svg';
+import { motion } from 'framer-motion';
 
 export function HomePage() {
   // ===== DEVICE TYPE =====
@@ -111,34 +112,40 @@ export function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
             <div className="absolute inset-x-0 bottom-0 z-10 px-2xl md:px-11xl pb-[clamp(64px,10vw,140px)]">
-              <div className="w-full max-w-full md:max-w-[660px] flex flex-col gap-lg md:gap-xl">
-                <div>
-                  <h1 className="text-display-xs md:text-display-lg lg:text-display-xl xl:text-display-2xl font-bold mb-2 md:mb-4 text-gray-25">
-                    {heroMovie.title}
-                  </h1>
-                  <p className="w-full max-w-full md:max-w-[620px] text-sm lg:text-[15px] xl:text-md font-regular text-gray-400">
-                    {heroMovie.overview}
-                  </p>
-                </div>
+              <div className="absolute inset-x-0 bottom-0 z-10 px-2xl md:px-11xl pb-[clamp(64px,10vw,140px)]">
+                <motion.div
+                  key={heroMovie.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                  className="w-full max-w-full md:max-w-[660px] flex flex-col gap-lg md:gap-xl">
+              <div>
+                <h1 className="text-display-xs md:text-display-lg lg:text-display-xl xl:text-display-2xl font-bold mb-2 md:mb-4 text-gray-25">
+                  {heroMovie.title}
+                </h1>
+                <p className="w-full max-w-full md:max-w-[620px] text-sm lg:text-[15px] xl:text-md font-regular text-gray-400">
+                  {heroMovie.overview}
+                </p>
+              </div>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-md md:gap-xl xl:w-[476px] xl:h-[52px]">
-                  {trailer && (
-                    <Button asChild className="w-full rounded-full text-sm lg:text-[15px] xl:text-md py-2.5 md:py-3">
-                      <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">
-                        Watch Trailer
-                        <img src={playIcon} alt="" className="w-5 h-5 xl:w-6 xl:h-6" />
-                      </a>
-                    </Button>
-                  )}
-
-                  <Button asChild variant="secondary" className="w-full rounded-full text-sm lg:text-[15px] xl:text-md py-2.5 md:py-3">
-                    <Link to={`/movie/${heroMovie.id}`}>See Detail</Link>
-                  </Button>
-                </div>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-md md:gap-xl xl:w-[476px] xl:h-[52px]">
+                {trailer && (
+                <Button asChild className="w-full rounded-full text-sm lg:text-[15px] xl:text-md py-2.5 md:py-3">
+                <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">
+                  Watch Trailer
+                  <img src={playIcon} alt="" className="w-5 h-5 xl:w-6 xl:h-6" />
+                </a>
+                </Button>
+              )}
+                <Button asChild variant="secondary" className="w-full rounded-full text-sm lg:text-[15px] xl:text-md py-2.5 md:py-3">
+                  <Link to={`/movie/${heroMovie.id}`}>See Detail</Link>
+                </Button>
+              </div>
+                </motion.div>
               </div>
             </div>
           </>
-        )}
+          )}
       </section>
 
       <main>
