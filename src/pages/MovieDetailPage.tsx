@@ -17,6 +17,7 @@ import { MovieGrid } from '@/components/Feature Components/MovieGrid';
 
 export function MovieDetailPage() {
   const [imageError, setImageError] = useState(false);
+  const [backdropError, setBackdropError] = useState(false);
   const { id } = useParams();
   const movieId = Number(id);
 
@@ -32,7 +33,7 @@ export function MovieDetailPage() {
 
   const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
   const posterUrl = movie ? getImageUrl(movie.poster_path ?? null, 'w500') : null;
-  
+
   const usReleaseDates = releaseDates?.results.find(
   (country) => country.iso_3166_1 === 'US'
   );
@@ -84,11 +85,16 @@ export function MovieDetailPage() {
     <section className="relative w-full bg-black">
       {/* Backdrop */}
       <div className="absolute inset-x-0 top-0 h-[300px] md:h-[480px] xl:h-[640px] overflow-hidden">
-        <img
-          src={getImageUrl(movie.backdrop_path, 'original')}
-          alt={movie.title}
-          className="absolute inset-0 w-full h-full object-cover object-[50%_10%]"
+        {getImageUrl(movie.backdrop_path, 'original') && !backdropError ? (
+          <img
+            src={getImageUrl(movie.backdrop_path, 'original')}
+            alt={movie.title}
+            onError={() => setBackdropError(true)}
+            className="absolute inset-0 w-full h-full object-cover object-[50%_10%]"
         />
+        ) : (
+          <div className="absolute inset-0 bg-gray-950" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/10 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
       </div>
