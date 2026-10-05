@@ -26,7 +26,8 @@ export function MovieDetailPage() {
   const { data: credits } = useMovieCredits(movieId);
   const { data: videos } = useMovieVideos(movieId);
   const { data: releaseDates } = useMovieReleaseDates(movieId);
-  const { data: similarMovies, isLoading: isSimilarLoading } =
+  const { data: similarMovies, isLoading: isSimilarLoading, isError: isSimilarError,
+  } =
   useSimilarMovies(movieId);
 
   const toggleFavorite = useMovieStore((s) => s.toggleFavorite);
@@ -256,10 +257,23 @@ export function MovieDetailPage() {
           </h2>
 
           <div className="mt-3xl md:mt-4xl">
-            <MovieGrid
-              movies={similarMovies?.results ?? []}
-              isLoading={isSimilarLoading}
-              variant="similar"/>
+            {isSimilarError ? (
+              <div className="flex min-h-[300px] items-center justify-center text-center">
+                <div>
+                  <p className="text-md font-semibold text-gray-25">
+                    Something went wrong
+                  </p>
+                  <p className="mt-xs text-sm text-gray-400">
+                    Failed to load similar movies. Please try again.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <MovieGrid
+                movies={similarMovies?.results ?? []}
+                isLoading={isSimilarLoading}
+                variant="similar"/>
+            )}
           </div>
         </motion.div>
       </div>
