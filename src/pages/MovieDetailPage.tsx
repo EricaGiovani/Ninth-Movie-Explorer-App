@@ -18,6 +18,7 @@ import { MovieGrid } from '@/components/Feature Components/MovieGrid';
 export function MovieDetailPage() {
   const [imageError, setImageError] = useState(false);
   const [backdropError, setBackdropError] = useState(false);
+  const [castImageErrors, setCastImageErrors] = useState<number[]>([]);
   const { id } = useParams();
   const movieId = Number(id);
 
@@ -213,10 +214,22 @@ export function MovieDetailPage() {
               {castAndCrew.map((person) => (
                 <div key={`${person.id}-${'character' in person ? person.character : person.job}`}
                   className="flex items-center gap-lg">
-                  <img
-                    src={getImageUrl(person.profile_path, 'w185')}
-                    alt={person.name}
-                    className="w-[55px] md:w-[69px] aspect-[2/3] object-cover rounded-md"/>
+                  {getImageUrl(person.profile_path, 'w185') &&
+                  !castImageErrors.includes(person.id) ? (
+                    <img
+                      src={getImageUrl(person.profile_path, 'w185')}
+                      alt={person.name}
+                      onError={() =>
+                        setCastImageErrors((prev) => [...prev, person.id])
+                      }
+                      className="w-[55px] md:w-[69px] aspect-[2/3] object-cover rounded-md"/>
+                  ) : (
+                    <div className="flex w-[55px] md:w-[69px] aspect-[2/3] items-center justify-center rounded-md bg-gray-900">
+                      <p className="px-xs text-center text-[10px] md:text-xs text-gray-400">
+                        No Image
+                      </p>
+                    </div>
+                  )}
                   <div className="min-w-0">
                     <p className="text-sm md:text-md font-semibold text-gray-25">
                       {person.name}
