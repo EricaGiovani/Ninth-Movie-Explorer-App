@@ -42,6 +42,7 @@ export function HomePage() {
   );
   const isTrendingLoading = trendingQueries[0]?.isLoading ?? true;
   const isTrendingFetching = trendingQueries.some((q) => q.isFetching);
+  const isTrendingError = trendingQueries.some((q) => q.isError);
   const trendingTotalPages = trendingQueries.at(-1)?.data?.total_pages ?? 1;
 
   const trendingWindowSize = { mobile: 2, tablet: 3, desktop: 5 }[deviceType];
@@ -166,15 +167,25 @@ export function HomePage() {
               </button>
 
               {/* Movies */}
-              <div className="px-10 md:px-12">
+              {isTrendingError ? (
+                <div className="flex min-h-[300px] items-center justify-center text-center">
+                  <div>
+                    <p className="text-md font-semibold text-gray-25">
+                      Something went wrong
+                    </p>
+                    <p className="mt-xs text-sm text-gray-400">
+                      Failed to load trending movies. Please try again.
+                    </p>
+                  </div>
+                </div>
+              ) : (
                 <MovieGrid
                   movies={visibleTrending}
                   isLoading={isTrendingLoading}
                   variant="trending"
                   showRank
-                  rankStart={trendingOffset}
-                />
-              </div>
+                  rankStart={trendingOffset}/>
+              )}
 
               {/* Next — kanan */}
               <button
