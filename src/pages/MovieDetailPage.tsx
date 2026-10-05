@@ -25,7 +25,7 @@ export function MovieDetailPage() {
   const { data: movie, isLoading } = useMovieDetails(movieId);
   const { data: credits,  isError: isCreditsError } = useMovieCredits(movieId);
   const { data: videos, isError: isVideosError } = useMovieVideos(movieId);
-  const { data: releaseDates } = useMovieReleaseDates(movieId);
+  const { data: releaseDates, isError: isReleaseDatesError } = useMovieReleaseDates(movieId);
   const { data: similarMovies, isLoading: isSimilarLoading, isError: isSimilarError,
   } =
   useSimilarMovies(movieId);
@@ -194,7 +194,7 @@ export function MovieDetailPage() {
               <img src={emojiIcon} alt="" className="w-6 h-6 xl:w-8 xl:h-8" />
               <p className="text-xs md:text-sm xl:text-md text-gray-300 font-regular">Age</p>
               <p className="text-lg md:text-[19px] xl:text-xl font-semibold text-gray-25">
-                {ageRating}
+                {isReleaseDatesError ? '—' : ageRating}
               </p>
             </div>
           </div>
