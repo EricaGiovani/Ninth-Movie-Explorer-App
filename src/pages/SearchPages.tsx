@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useSearchMovies } from '@/hooks/useMovies';
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,11 @@ export function SearchPage() {
 
   const { data, isLoading, isFetching, isError} = useSearchMovies(inputValue,page);
 
-  const handleInputChange = (value: string) => {setInputValue(value); setPage(1);};
+  const handleInputChange = useCallback((value: string) => {
+    setInputValue(value);
+    setPage(1);
+  }, []);
+
   const handleBack = () => {setInputValue(''); navigate(-1);};
 
   const movies = useMemo(() => data?.results ?? [], [data?.results]);

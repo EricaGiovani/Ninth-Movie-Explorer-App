@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import arrowLeftIcon from '@/assets/icons/Logo Arrow Left.svg';
@@ -14,7 +14,7 @@ interface SearchBarProps {
 export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
   const {
     register,
-    watch,
+    control,
     setValue,
     formState: { errors },
   } = useForm<SearchFormValues>({
@@ -23,17 +23,17 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
     defaultValues: { query: value },
   });
 
-  const watchedQuery = watch('query');
+  const watchedQuery = useWatch({ control, name: 'query' });
 
   // Sinkronkan ke parent tiap kali user mengetik (live search tetap jalan)
   useEffect(() => {
     onChange(watchedQuery ?? '');
-  }, [watchedQuery]);
+  }, [watchedQuery, onChange]);
 
   // Kalau value dari luar berubah (misal lewat tombol back terus buka lagi), sync balik ke form
   useEffect(() => {
     if (value !== watchedQuery) setValue('query', value);
-  }, [value]);
+  }, [value, watchedQuery, setValue]);
 
   return (
     <header className="sticky top-0 z-50 bg-black border-b border-gray-900">
