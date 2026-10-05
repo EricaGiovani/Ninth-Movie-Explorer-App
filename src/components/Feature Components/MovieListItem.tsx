@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { useMovieVideos } from '@/hooks/useMovies';
@@ -13,20 +14,31 @@ interface MovieListItemProps {
 }
 
 export function MovieListItem({ movie, rightAction }: MovieListItemProps) {
+  const [imageError, setImageError] = useState(false);
   const { data: videos } = useMovieVideos(movie.id);
   const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
+  const posterUrl = getImageUrl(movie.poster_path, 'w342');
 
   return (
     <article className="relative border-b border-gray-800 pb-3xl md:pb-4xl">
       <div className="flex gap-lg md:gap-4xl">
         <Link to={`/movie/${movie.id}`} className="shrink-0">
+        {posterUrl && !imageError ? (
           <img
             src={getImageUrl(movie.poster_path, 'w342')}
             alt={`Poster ${movie.title}`}
+            onError={() => setImageError(true)}
             className="w-[105px] md:w-[188px] aspect-[2/3] md:h-full object-cover rounded-md lg:rounded-xl"
           />
+          ) : (
+            <div className="flex w-[105px] md:w-[188px] aspect-[2/3] items-center justify-center rounded-md lg:rounded-xl bg-gray-900">
+              <p className="px-md text-center text-xs md:text-sm text-gray-400">
+                Poster Not Available
+              </p>
+            </div>
+          )}
         </Link>
-
+        
         <div className="min-w-0 flex-1 flex flex-col">
           <Link to={`/movie/${movie.id}`}>
             <h2 className="text-md md:text-xl xl:text-display-xs font-bold text-gray-25">

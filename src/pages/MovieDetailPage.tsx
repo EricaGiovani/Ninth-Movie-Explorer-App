@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useMovieDetails, useMovieCredits, useMovieVideos, useMovieReleaseDates, useSimilarMovies } from '@/hooks/useMovies';
 import { useMovieStore } from '@/store/movieStore';
@@ -15,6 +16,7 @@ import { MovieGrid } from '@/components/Feature Components/MovieGrid';
 
 
 export function MovieDetailPage() {
+  const [imageError, setImageError] = useState(false);
   const { id } = useParams();
   const movieId = Number(id);
 
@@ -29,7 +31,8 @@ export function MovieDetailPage() {
   const isFavorite = useMovieStore((s) => (movie ? s.isFavorite(movie.id) : false));
 
   const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
-
+  const posterUrl = movie ? getImageUrl(movie.poster_path ?? null, 'w500') : null;
+  
   const usReleaseDates = releaseDates?.results.find(
   (country) => country.iso_3166_1 === 'US'
   );
@@ -96,11 +99,20 @@ export function MovieDetailPage() {
         {/* Poster + info */}
         <div className="grid grid-cols-[116px_1fr] md:grid-cols-[200px_1fr] xl:grid-cols-[256px_1fr] md:grid-rows-[auto_auto_1fr] gap-x-lg md:gap-x-4xl gap-y-xl items-start">
 
+        {posterUrl && !imageError ? (
           <img
             src={getImageUrl(movie.poster_path, 'w500')}
             alt={`Poster ${movie.title}`}
+            onError={() => setImageError(true)}
             className="col-start-1 row-start-1 md:row-span-3 w-full aspect-[2/3] object-cover rounded-xl"
           />
+        ) : (
+          <div className="col-start-1 row-start-1 md:row-span-3 flex w-full aspect-[2/3] items-center justify-center rounded-xl bg-gray-900">
+            <p className="px-md text-center text-sm text-gray-400">
+              Poster Not Available
+            </p>
+          </div>
+        )}
 
           <div className="col-start-2 row-start-1 min-w-0">
             <h1 className="text-xl md:text-display-sm xl:text-display-xl font-bold text-gray-25">

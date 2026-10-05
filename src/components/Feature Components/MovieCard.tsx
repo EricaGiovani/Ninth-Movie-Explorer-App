@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import starIcon from '@/assets/icons/Icon Star.svg';
 import { getImageUrl, formatRating } from '@/lib/utils';
@@ -11,6 +12,7 @@ interface MovieCardProps {
 
 export function MovieCard({ movie, rank }: MovieCardProps) {
   const posterUrl = getImageUrl(movie.poster_path, 'w500');
+  const [imageError, setImageError] = useState(false);
 
   return (
     <motion.div whileHover={{ y: -7 }} transition={{ type: 'spring', stiffness: 300, damping: 24 }}>
@@ -21,12 +23,21 @@ export function MovieCard({ movie, rank }: MovieCardProps) {
               {rank}
             </span>
           )}
+          {posterUrl && !imageError ? (
           <img
             src={posterUrl}
             alt={movie.title}
             loading="lazy"
+            onError={() => setImageError(true)}
             className="w-full h-full object-cover rounded-xl"
           />
+          ) : (
+          <div className="flex aspect-[2/3] w-full items-center justify-center rounded-xl bg-gray-900">
+            <p className="px-md text-center text-sm text-gray-400">
+              Poster Not Available
+            </p>
+          </div>
+        )}
         </div>
 
         <div className="mt-md gap-xxs">
