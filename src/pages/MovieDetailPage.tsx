@@ -24,7 +24,7 @@ export function MovieDetailPage() {
 
   const { data: movie, isLoading } = useMovieDetails(movieId);
   const { data: credits,  isError: isCreditsError } = useMovieCredits(movieId);
-  const { data: videos } = useMovieVideos(movieId);
+  const { data: videos, isError: isVideosError } = useMovieVideos(movieId);
   const { data: releaseDates } = useMovieReleaseDates(movieId);
   const { data: similarMovies, isLoading: isSimilarLoading, isError: isSimilarError,
   } =
@@ -135,12 +135,24 @@ export function MovieDetailPage() {
           </div>
 
           <div className="col-span-2 md:col-span-1 md:col-start-2 row-start-2 flex items-center gap-xl mt-xs md:mt-md">
-            {trailer && (
-              <Button asChild className="flex-1 md:flex-none md:w-[230px] text-sm md:text-[15px] xl:text-md rounded-full">
-                <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">Watch Trailer
-                  <img src={playIcon} alt="" className="w-4 h-4 xl:w-6 xl:h-6" />
-                </a>
-              </Button>
+            {isVideosError ? (
+              <p className="text-sm text-gray-400">
+                Failed to load trailer.
+              </p>
+            ) : (
+              trailer && (
+                <Button
+                  asChild
+                  className="flex-1 md:flex-none md:w-[230px] text-sm md:text-[15px] xl:text-md rounded-full">
+                    <a
+                      href={`https://www.youtube.com/watch?v=${trailer.key}`}
+                      target="_blank"
+                      rel="noreferrer">
+                        Watch Trailer
+                        <img src={playIcon} alt="" className="w-4 h-4 xl:w-6 xl:h-6" />
+                    </a>
+                </Button>
+              )
             )}
             <Button
               onClick={() => toggleFavorite(movie)}
