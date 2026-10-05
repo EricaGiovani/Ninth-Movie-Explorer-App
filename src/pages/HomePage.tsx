@@ -85,6 +85,7 @@ export function HomePage() {
 
   const isNewReleaseLoading = newReleaseQueries[0]?.isLoading ?? true;
   const isNewReleaseFetching = newReleaseQueries.some((q) => q.isFetching);
+  const isNewReleaseError = newReleaseQueries.some((q) => q.isError);
   const newReleaseTotalPages = newReleaseQueries.at(-1)?.data?.total_pages ?? 1;
 
   const handleNewReleaseLoadMore = () => {
@@ -206,7 +207,23 @@ export function HomePage() {
             New Release
           </h2>
 
-          <MovieGrid movies={visibleNewRelease} isLoading={isNewReleaseLoading} variant="new-release" />
+          {isNewReleaseError ? (
+            <div className="flex min-h-[300px] items-center justify-center text-center">
+              <div>
+                <p className="text-md font-semibold text-gray-25">
+                  Something went wrong
+                </p>
+                <p className="mt-xs text-sm text-gray-400">
+                  Failed to load new release movies. Please try again.
+                </p>
+            </div>
+          </div>
+          ) : (
+            <MovieGrid 
+              movies={visibleNewRelease} 
+              isLoading={isNewReleaseLoading} 
+              variant="new-release" />
+          )}
 
           {newReleasePages.length < newReleaseTotalPages && (
             <div className="relative z-20 flex justify-center -translate-y-18">
