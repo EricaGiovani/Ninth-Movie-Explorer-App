@@ -23,7 +23,7 @@ export function MovieDetailPage() {
   const movieId = Number(id);
 
   const { data: movie, isLoading } = useMovieDetails(movieId);
-  const { data: credits } = useMovieCredits(movieId);
+  const { data: credits,  isError: isCreditsError } = useMovieCredits(movieId);
   const { data: videos } = useMovieVideos(movieId);
   const { data: releaseDates } = useMovieReleaseDates(movieId);
   const { data: similarMovies, isLoading: isSimilarLoading, isError: isSimilarError,
@@ -200,7 +200,19 @@ export function MovieDetailPage() {
         </motion.div>
 
         {/* Cast & Crew */}
-        {castAndCrew.length > 0 && (
+        {isCreditsError ? (
+          <div className="mt-4xl md:mt-7xl flex min-h-[200px] items-center justify-center text-center">
+            <div>
+              <p className="text-md font-semibold text-gray-25">
+                Something went wrong
+              </p>
+              <p className="mt-xs text-sm text-gray-400">
+                Failed to load cast & crew. Please try again.
+              </p>
+            </div>
+          </div>
+        ) : (
+          castAndCrew.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -243,6 +255,7 @@ export function MovieDetailPage() {
               ))}
             </div>
           </motion.div>
+          )
         )}
 
         {/* Similar Movies */}
