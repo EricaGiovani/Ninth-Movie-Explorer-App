@@ -15,25 +15,18 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
   const {
     register,
     control,
-    setValue,
     formState: { errors },
   } = useForm<SearchFormValues>({
     resolver: zodResolver(searchSchema),
     mode: 'onChange',
-    defaultValues: { query: value },
+    defaultValues: { query: value }, 
   });
 
   const watchedQuery = useWatch({ control, name: 'query' });
 
-  // Sinkronkan ke parent tiap kali user mengetik (live search tetap jalan)
   useEffect(() => {
     onChange(watchedQuery ?? '');
   }, [watchedQuery, onChange]);
-
-  // Kalau value dari luar berubah (misal lewat tombol back terus buka lagi), sync balik ke form
-  useEffect(() => {
-    if (value !== watchedQuery) setValue('query', value);
-  }, [value, watchedQuery, setValue]);
 
   return (
     <header className="sticky top-0 z-50 bg-black border-b border-gray-900">

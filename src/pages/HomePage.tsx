@@ -112,7 +112,6 @@ export function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
             <div className="absolute inset-x-0 bottom-0 z-10 px-2xl md:px-11xl pb-[clamp(64px,10vw,140px)]">
-              <div className="absolute inset-x-0 bottom-0 z-10 px-2xl md:px-11xl pb-[clamp(64px,10vw,140px)]">
                 <motion.div
                   key={heroMovie.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -142,7 +141,6 @@ export function HomePage() {
                 </Button>
               </div>
                 </motion.div>
-              </div>
             </div>
           </>
           )}
