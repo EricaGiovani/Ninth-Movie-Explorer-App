@@ -3,7 +3,7 @@
 // https://developer.themoviedb.org/reference/movie-details
 
 export interface Movie {
-  // TODO: Add movie properties based on TMDB API response
+  // Add movie properties based on TMDB API response
   // Examples: id, title, overview, poster_path, etc.
   id: number;
   title: string;
@@ -18,7 +18,7 @@ export interface Movie {
 }
 
 export interface MovieResponse {
-  // TODO: Add pagination properties
+  // Add pagination properties
   // Examples: page, results, total_pages, total_results
   page: number;
   results: Movie[];
@@ -26,12 +26,14 @@ export interface MovieResponse {
   total_results: number;
 }
 
-// TODO: Add more types as needed (Genre, Video, etc.)
+// Add more types as needed (Genre, Video, etc.)
+// Add Genre type
 export interface Genre {
   id: number;
   name: string;
 }
 
+// add Movie Details type
 export interface MovieDetails extends Omit<Movie, 'genre_ids'> {
   genres: Genre[];
   runtime: number;
@@ -44,6 +46,7 @@ export interface MovieDetails extends Omit<Movie, 'genre_ids'> {
   similar?: MovieResponse;
 }
 
+// Add Cast type
 export interface Cast {
   id: number;
   name: string;
@@ -51,6 +54,7 @@ export interface Cast {
   profile_path: string | null;
 }
 
+// Add Crew type
 export interface Crew {
   id: number;
   name: string;
@@ -58,11 +62,13 @@ export interface Crew {
   profile_path: string | null;
 }
 
+// Add Credits type
 export interface Credits {
   cast: Cast[];
   crew: Crew[];
 }
 
+// Add Video type
 export interface Video {
   id: string;
   key: string;
@@ -72,22 +78,26 @@ export interface Video {
   official: boolean;
 }
 
+// Add Video Response type
 export interface VideoResponse {
   id: number;
   results: Video[];
 }
 
+// Add Release date type
 export interface ReleaseDate {
   certification: string;
   release_date: string;
   type: number;
 }
 
+// Add Release Date Country type
 export interface ReleaseDateCountry {
   iso_3166_1: string;
   release_dates: ReleaseDate[];
 }
 
+// Add Release Dates Response type
 export interface ReleaseDatesResponse {
   id: number;
   results: ReleaseDateCountry[];

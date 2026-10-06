@@ -12,18 +12,12 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
-  const {
-    register,
-    control,
-    formState: { errors },
-  } = useForm<SearchFormValues>({
+  const {register, control, formState: { errors },} = useForm<SearchFormValues>({
     resolver: zodResolver(searchSchema),
     mode: 'onChange',
     defaultValues: { query: value }, 
   });
-
   const watchedQuery = useWatch({ control, name: 'query' });
-
   useEffect(() => {
     onChange(watchedQuery ?? '');
   }, [watchedQuery, onChange]);
@@ -35,8 +29,7 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
           type="button"
           aria-label="Kembali"
           onClick={onBack}
-          className="flex h-10 w-10 shrink-0 items-center justify-center"
-        >
+          className="flex h-10 w-10 shrink-0 items-center justify-center">
           <img src={arrowLeftIcon} alt="" className="w-6 h-6" />
         </button>
 
@@ -48,12 +41,11 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
               autoFocus
               aria-invalid={!!errors.query}
               className="border-0 bg-transparent px-0 text-sm md:text-md text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
-              {...register('query')}
-            />
+              {...register('query')}/>
           </div>
-          {errors.query && (
-            <p className="mt-xs text-xs text-red-500">{errors.query.message}</p>
-          )}
+            {errors.query && (
+              <p className="mt-xs text-xs text-red-500">{errors.query.message}</p>
+            )}
         </div>
       </div>
     </header>

@@ -11,6 +11,7 @@ export function Layout() {
     <div className="min-h-screen flex flex-col bg-black">
       <Navbar />
       <Toast />
+      {/*Animate page transitions when the route changes*/}
       <AnimatePresence initial={false}>
         <motion.main
         key={location.pathname}

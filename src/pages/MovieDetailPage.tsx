@@ -36,19 +36,15 @@ export function MovieDetailPage() {
   const trailer = videos?.results.find((v) => v.type === 'Trailer' && v.site === 'YouTube');
   const posterUrl = movie ? getImageUrl(movie.poster_path ?? null, 'w500') : null;
 
-  const usReleaseDates = releaseDates?.results.find(
-  (country) => country.iso_3166_1 === 'US'
-  );
+  const usReleaseDates = releaseDates?.results.find((country) => country.iso_3166_1 === 'US');
 
-  const ageRating =
-  usReleaseDates?.release_dates.find(
+  const ageRating = usReleaseDates?.release_dates.find(
     (release) => release.certification
   )?.certification || '—';
 
   const castAndCrew = [
-  ...(credits?.cast.slice(0, 4) ?? []),
-  ...(credits?.crew
-    .filter((person) =>
+    ...(credits?.cast.slice(0, 4) ?? []),
+    ...(credits?.crew.filter((person) =>
       ['Director', 'Writer', 'Screenplay', 'Producer'].includes(person.job)
     )
     .slice(0, 2) ?? []),
@@ -92,8 +88,7 @@ export function MovieDetailPage() {
             src={getImageUrl(movie.backdrop_path, 'original')}
             alt={movie.title}
             onError={() => setBackdropError(true)}
-            className="absolute inset-0 w-full h-full object-cover object-[50%_10%]"
-        />
+            className="absolute inset-0 w-full h-full object-cover object-[50%_10%]"/>
         ) : (
           <div className="absolute inset-0 bg-gray-950" />
         )}
@@ -101,19 +96,18 @@ export function MovieDetailPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
       </div>
 
-      {/* Konten */}
+      {/* Movie detail content */}
       <div className="relative z-10 px-2xl md:px-11xl pt-[190px] md:pt-[240px] lg:pt-[300px] xl:pt-[400px] pb-8xl md:pb-10xl">
 
-        {/* Poster + info */}
-        <div className="grid grid-cols-[116px_1fr] md:grid-cols-[200px_1fr] xl:grid-cols-[256px_1fr] md:grid-rows-[auto_auto_1fr] gap-x-lg md:gap-x-4xl gap-y-xl items-start">
+      {/* Poster + info */}
+      <div className="grid grid-cols-[116px_1fr] md:grid-cols-[200px_1fr] xl:grid-cols-[256px_1fr] md:grid-rows-[auto_auto_1fr] gap-x-lg md:gap-x-4xl gap-y-xl items-start">
 
         {posterUrl && !imageError ? (
           <img
-            src={getImageUrl(movie.poster_path, 'w500')}
+            src={posterUrl}
             alt={`Poster ${movie.title}`}
             onError={() => setImageError(true)}
-            className="col-start-1 row-start-1 md:row-span-3 w-full aspect-[2/3] object-cover rounded-xl"
-          />
+            className="col-start-1 row-start-1 md:row-span-3 w-full aspect-[2/3] object-cover rounded-xl"/>
         ) : (
           <div className="col-start-1 row-start-1 md:row-span-3 flex w-full aspect-[2/3] items-center justify-center rounded-xl bg-gray-900">
             <p className="px-md text-center text-sm text-gray-400">

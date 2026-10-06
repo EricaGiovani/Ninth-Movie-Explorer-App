@@ -24,20 +24,20 @@ export function MovieCard({ movie, rank }: MovieCardProps) {
             </span>
           )}
           {posterUrl && !imageError ? (
-          <img
-            src={posterUrl}
-            alt={movie.title}
-            loading="lazy"
-            onError={() => setImageError(true)}
-            className="w-full h-full object-cover rounded-xl"
-          />
+            <img
+              src={posterUrl}
+              alt={movie.title}
+              loading="lazy"
+              onError={() => setImageError(true)}
+              className="w-full h-full object-cover rounded-xl"
+            />
           ) : (
-          <div className="flex aspect-[2/3] w-full items-center justify-center rounded-xl bg-gray-900">
-            <p className="px-md text-center text-sm text-gray-400">
-              Poster Not Available
-            </p>
-          </div>
-        )}
+            <div className="flex aspect-[2/3] w-full items-center justify-center rounded-xl bg-gray-900">
+              <p className="px-md text-center text-sm text-gray-400">
+                Poster Not Available
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="mt-md gap-xxs">

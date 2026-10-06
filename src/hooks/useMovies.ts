@@ -70,6 +70,7 @@ export const useMovieVideos = (movieId: number | undefined) => {
   });
 };
 
+// Hook to fetch movie release dates
 export const useMovieReleaseDates = (movieId: number | undefined) => {
   return useQuery({
     queryKey: ['movie', movieId, 'release-dates'],

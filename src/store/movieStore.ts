@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Movie, MovieDetails } from '@/types/movie';
 
-// TODO: Define your store state interface
+// Define store state interface
 interface MovieStore {
   favorites: (Movie | MovieDetails)[];
   addToFavorites: (movie: Movie | MovieDetails) => void;
@@ -11,6 +11,7 @@ interface MovieStore {
   isFavorite: (movieId: number) => boolean;
   clearFavorites: () => void;
 
+  // Toast state and notification handler
   toastMessage: string | null;
   showToast: (message: string) => void;
 
@@ -19,6 +20,7 @@ interface MovieStore {
 // TODO: Create Zustand store
 // Reference: https://zustand.docs.pmnd.rs/getting-started/introduction
 
+// Persist favorites in localStorage
 let toastTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
 export const useMovieStore = create<MovieStore>()(
@@ -61,6 +63,7 @@ export const useMovieStore = create<MovieStore>()(
     }),
     {
       name: 'movie-favorites',
+      // Persist only favorites data in localStorage
       partialize: (state) => ({ favorites: state.favorites }), 
     }
   )

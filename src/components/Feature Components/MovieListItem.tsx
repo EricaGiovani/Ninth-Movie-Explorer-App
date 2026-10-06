@@ -24,12 +24,11 @@ export function MovieListItem({ movie, rightAction }: MovieListItemProps) {
       <div className="flex gap-lg md:gap-4xl">
         <Link to={`/movie/${movie.id}`} className="shrink-0">
         {posterUrl && !imageError ? (
-          <img
-            src={getImageUrl(movie.poster_path, 'w342')}
-            alt={`Poster ${movie.title}`}
-            onError={() => setImageError(true)}
-            className="w-[105px] md:w-[188px] aspect-[2/3] md:h-full object-cover rounded-md lg:rounded-xl"
-          />
+            <img
+              src={posterUrl}
+              alt={`Poster ${movie.title}`}
+              onError={() => setImageError(true)}
+              className="w-[105px] md:w-[188px] aspect-[2/3] md:h-full object-cover rounded-md lg:rounded-xl"/>
           ) : (
             <div className="flex w-[105px] md:w-[188px] aspect-[2/3] items-center justify-center rounded-md lg:rounded-xl bg-gray-900">
               <p className="px-md text-center text-xs md:text-sm text-gray-400">
@@ -61,8 +60,7 @@ export function MovieListItem({ movie, rightAction }: MovieListItemProps) {
             {trailer && (
               <Button
                 asChild
-                className="w-[230px] rounded-full bg-primary-300 hover:bg-primary-400 transition-colors px-6 py-3 text-[15px] xl:text-md font-semibold text-gray-25"
-              >
+                className="w-[230px] rounded-full bg-primary-300 hover:bg-primary-400 transition-colors px-6 py-3 text-[15px] xl:text-md font-semibold text-gray-25">
                 <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">
                   Watch Trailer
                   <img src={playIcon} alt="" className="w-6 h-6" />
@@ -78,8 +76,7 @@ export function MovieListItem({ movie, rightAction }: MovieListItemProps) {
         {trailer && (
           <Button
             asChild
-            className="flex-1 rounded-full bg-primary-300 hover:bg-primary-400 transition-colors px-5 py-2.5 text-sm font-semibold text-gray-25"
-          >
+            className="flex-1 rounded-full bg-primary-300 hover:bg-primary-400 transition-colors px-5 py-2.5 text-sm font-semibold text-gray-25">
             <a href={`https://www.youtube.com/watch?v=${trailer.key}`} target="_blank" rel="noreferrer">
               Watch Trailer
               <img src={playIcon} alt="" className="w-4 h-4" />

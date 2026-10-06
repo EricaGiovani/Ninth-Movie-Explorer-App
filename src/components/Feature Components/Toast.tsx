@@ -13,9 +13,8 @@ export function Toast() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.5, y: -10 }}
             transition={{ type: 'spring', stiffness: 500, damping: 20, mass: 0.8 }}
-            className="flex items-center gap-lg rounded-2xl bg-black/25 backdrop-blur-lg px-3xl py-sm text-md text-white font-semibold w-full max-w-[531px] justify-center"
-          >
-            <img src={SuccessIcon} alt="Success Icon" />
+            className="flex items-center gap-lg rounded-2xl bg-black/25 backdrop-blur-lg px-3xl py-sm text-md text-white font-semibold w-full max-w-[531px] justify-center">
+            <img src={SuccessIcon} alt="" />
             {toastMessage}
           </motion.div>
         )}

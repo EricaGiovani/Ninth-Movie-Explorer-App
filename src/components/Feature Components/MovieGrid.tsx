@@ -12,11 +12,8 @@ interface MovieGridProps {
 
 const gridClasses = {
   trending: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-xl xl:gap-2xl',
-
   'new-release': 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-lg md:gap-xl lg:gap-2xl gap-y-6xl gap-x-2xl',
-
   similar:'grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-xl xl:gap-2xl',
-
 };
 
 const container = {
@@ -56,8 +53,7 @@ export function MovieGrid({
               delay: dot * 0.2,
               ease: 'easeInOut',
             }}
-            className="text-md font-medium text-gray-400"
-          >
+            className="text-md font-medium text-gray-400">
             .
           </motion.span>
         ))}
@@ -72,12 +68,10 @@ export function MovieGrid({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-800 py-6xl text-center"
-    >
+      className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-800 py-6xl text-center">
       <p className="text-sm md:text-md xl:text-lg font-semibold text-gray-25">
         Data Not Found
       </p>
-
       <p className="mt-xs text-xs md:text-sm xl:text-md text-gray-400">
         Try other keywords
       </p>

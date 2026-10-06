@@ -21,8 +21,7 @@ export function FavoritesPage() {
           title="Data Empty"
           description="You don't have a favorite movie yet"
           actionLabel="Explore Movie"
-          actionTo="/"
-        />
+          actionTo="/"/>
       ) : (
         <div className="mt-5xl md:mt-6xl space-y-4xl md:space-y-6xl">
           {favorites.map((movie) => (
@@ -30,15 +29,14 @@ export function FavoritesPage() {
               key={movie.id}
               movie={movie}
               rightAction={
-                <Button
-                  onClick={() => removeFromFavorites(movie.id)}
-                  aria-label="Hapus dari favorit"
-                  variant="secondary"
-                  size="icon"
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-900 bg-gray-950/60 backdrop-blur-sm hover:bg-gray-900 transition-colors md:absolute md:top-0 md:right-0"
-                >
+              <Button
+                onClick={() => removeFromFavorites(movie.id)}
+                aria-label="Hapus dari favorit"
+                variant="secondary"
+                size="icon"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-900 bg-gray-950/60 backdrop-blur-sm hover:bg-gray-900 transition-colors md:absolute md:top-0 md:right-0">
                   <img src={heartFillIcon} alt="" className="w-6 h-6" />
-                </Button>
+              </Button>
               }
             />
           ))}

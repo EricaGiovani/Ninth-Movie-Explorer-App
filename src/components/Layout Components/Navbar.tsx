@@ -3,12 +3,10 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { searchSchema, type SearchFormValues } from '@/lib/validations/search';
-
 import logoMovie from '@/assets/icons/Logo Movie.svg';
 import searchIcon from '@/assets/icons/Logo Search.svg';
 import searchIconBold from '@/assets/icons/Logo Search Bold.svg';
 import HamburgerIcon from '@/assets/icons/Hamburger icon.svg';
-
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
@@ -17,6 +15,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
+  // Update navbar background when the user scrolls
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -51,12 +50,15 @@ export function Navbar() {
         }`}>
         <nav className="flex items-center justify-between px-2xl md:px-11xl py-lg md:py-2xl">
           <div className="gap-8xl flex items-center">
-            <Link to="/" className="flex items-center gap-[7.11px]">
-              <img src={logoMovie} alt="Movie Logo" className="w-7 h-7 xl:w-10 xl:h-10" />
+            <div className="flex items-center gap-[7.11px]">
+              <img
+                src={logoMovie}
+                alt="Movie Logo"
+                className="w-7 h-7 xl:w-10 xl:h-10"/>
               <span className="text-lg md:text-xl lg:text-display-xs xl:text-display-sm font-semibold text-gray-25">
                 Movie
               </span>
-            </Link>
+            </div>
 
             <div className="hidden lg:flex items-center gap-6xl">
               <NavLink to="/" end className={navLinkClass}>Home</NavLink>
@@ -75,8 +77,7 @@ export function Navbar() {
                 placeholder="Search Movie"
                 aria-invalid={!!errors.query}
                 className="border-0 bg-transparent px-0 text-md font-regular text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
-                {...register('query')}
-              />
+                {...register('query')}/>
             </form>
             {errors.query && (
               <p className="mt-xs text-xs text-red-500">{errors.query.message}</p>
@@ -87,7 +88,6 @@ export function Navbar() {
             <Link to="/search" aria-label="Buka pencarian" className="flex md:hidden h-6 w-6 items-center justify-center">
               <img src={searchIconBold} alt="Search" className="w-6 h-6" />
             </Link>
-
             <Button
               type="button"
               variant="ghost"
@@ -101,11 +101,10 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Mobile Menu — tidak berubah */}
-      <div
-        className={`mobile-menu fixed inset-0 z-[60] bg-gray-950 transition-transform duration-300 ease-in-out lg:hidden ${
+      {/* Mobile Menu*/}
+      <div className={`mobile-menu fixed inset-0 z-[60] bg-gray-950 transition-transform duration-300 ease-in-out lg:hidden ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
+      }`}>
         <div className="flex items-center justify-between px-2xl h-16 border-b border-gray-800">
           <div className="flex items-center gap-2">
             <img src={logoMovie} alt="Movie Logo" className="w-7 h-7" />
@@ -117,15 +116,23 @@ export function Navbar() {
             size="icon"
             aria-label="Tutup menu"
             onClick={() => setIsMenuOpen(false)}
-            className="text-display-xs leading-none text-white hover:bg-transparent"
-          >
-            ✕
+            className="text-display-xs leading-none text-white hover:bg-transparent">
+              ✕
           </Button>
         </div>
 
         <ul className="flex flex-col gap-3xl px-3xl py-3xl text-white">
-          <li><Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:text-primary-300 gap-md font-regular text-md">Home</Link></li>
-          <li><Link to="/favorites" onClick={() => setIsMenuOpen(false)} className="hover:text-primary-300 gap-md font-regular text-md">Favorites</Link></li>
+          <li>
+            <Link to="/" onClick={() => setIsMenuOpen(false)} 
+            className="hover:text-primary-300 gap-md font-regular text-md">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/favorites" onClick={() => setIsMenuOpen(false)} className="hover:text-primary-300 gap-md font-regular text-md">
+              Favorites
+            </Link>
+          </li>
         </ul>
       </div>
     </>

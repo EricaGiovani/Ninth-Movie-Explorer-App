@@ -4,9 +4,8 @@ import axios from 'axios';
 // Hint: Use environment variables for API URL and API key
 // Reference: https://axios-http.com/docs/instance
 
+// Centralized Axios instance for TMDB API requests
 const api = axios.create({
-  // TODO: Configure baseURL from environment variable
-  // TODO: Add default headers (API key, content-type)
   baseURL: import.meta.env.VITE_TMDB_BASE_URL,
   params: {
     api_key: import.meta.env.VITE_TMDB_API_KEY,
@@ -14,10 +13,8 @@ const api = axios.create({
   },
 });
 
-// TODO: Add request interceptor if needed
-// Hint: You can add API key to every request here
-
-// TODO: Add response interceptor for error handling
+// Add response interceptor for error handling
+// Handle common TMDB API and network errors in one place
 api.interceptors.response.use(
   (response) => response,
   (error) => {
