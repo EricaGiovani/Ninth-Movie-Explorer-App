@@ -143,7 +143,7 @@ Gunakan checklist ini untuk memastikan semua requirement sudah terpenuhi.
 ## Testing & Quality Assurance
 
 - [done] Test di berbagai ukuran layar
-- [ ] Test di browser berbeda (Chrome, Firefox, Safari)
+- [done] Test di browser berbeda (Chrome, Firefox, Safari)
 - [done] Test semua user flows
 - [done] No console errors
 - [done] No TypeScript errors
@@ -159,7 +159,7 @@ Gunakan checklist ini untuk memastikan semua requirement sudah terpenuhi.
 
 ## Bonus Points
 
-- [ ] Deployed ke Vercel/Netlify
+- [done] Deployed ke Vercel/Netlify
 - [ ] Dark mode implementation
 - [ ] Skeleton loading states
 - [done] Infinite scroll / pagination
@@ -171,8 +171,8 @@ Gunakan checklist ini untuk memastikan semua requirement sudah terpenuhi.
 
 - [done] Run `npm run build` - build berhasil tanpa error
 - [done] Run `npm run lint` - no linting errors
-- [] Test deployed version (jika sudah deploy)
-- [] Review semua code sekali lagi
+- [done] Test deployed version (jika sudah deploy)
+- [done] Review semua code sekali lagi
 - [done] Ensure no sensitive data in repo
 
 ---
