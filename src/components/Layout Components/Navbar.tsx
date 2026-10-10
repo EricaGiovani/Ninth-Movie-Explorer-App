@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate, useLocation, useSearchParams } from 'react-
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { searchSchema, type SearchFormValues } from '@/lib/validations/search';
-import logoMovie from '@/assets/icons/Logo Movie.svg';
+import logoMovie from '@/assets/icons/Logo movie.svg';
 import searchIcon from '@/assets/icons/Logo Search.svg';
 import searchIconBold from '@/assets/icons/Logo Search Bold.svg';
 import HamburgerIcon from '@/assets/icons/Hamburger icon.svg';
