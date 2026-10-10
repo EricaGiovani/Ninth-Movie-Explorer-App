@@ -34,7 +34,7 @@ export function NewsletterForm() {
           type="email"
           placeholder="your@email.com"
           aria-invalid={!!errors.email}
-          className="flex-1 bg-gray-950 border border-gray-800 text-sm text-white placeholder:text-gray-500"
+          className="newsletter-email flex-1 bg-gray-950 border border-gray-800 text-sm text-white placeholder:text-gray-500"
           {...register('email')}/>
         <Button
           type="submit"

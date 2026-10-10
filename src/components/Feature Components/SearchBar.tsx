@@ -1,6 +1,5 @@
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
 import arrowLeftIcon from '@/assets/icons/Logo Arrow Left.svg';
 import { Input } from '@/components/ui/input';
 import { searchSchema, type SearchFormValues } from '@/lib/validations/search';
@@ -12,15 +11,16 @@ interface SearchBarProps {
 }
 
 export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
-  const {register, control, formState: { errors },} = useForm<SearchFormValues>({
+  const {
+    register,
+    formState: { errors },
+  } = useForm<SearchFormValues>({
     resolver: zodResolver(searchSchema),
     mode: 'onChange',
-    defaultValues: { query: value }, 
+    defaultValues: { query: value }, // hanya nilai awal saat komponen muncul
   });
-  const watchedQuery = useWatch({ control, name: 'query' });
-  useEffect(() => {
-    onChange(watchedQuery ?? '');
-  }, [watchedQuery, onChange]);
+
+  const { onChange: onFieldChange, ...field } = register('query');
 
   return (
     <header className="sticky top-0 z-50 bg-black border-b border-gray-900">
@@ -29,7 +29,8 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
           type="button"
           aria-label="Kembali"
           onClick={onBack}
-          className="flex h-10 w-10 shrink-0 items-center justify-center">
+          className="flex h-10 w-10 shrink-0 items-center justify-center"
+        >
           <img src={arrowLeftIcon} alt="" className="w-6 h-6" />
         </button>
 
@@ -41,11 +42,16 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
               autoFocus
               aria-invalid={!!errors.query}
               className="border-0 bg-transparent px-0 text-sm md:text-md text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
-              {...register('query')}/>
+              {...field}
+              onChange={(e) => {
+                onFieldChange(e);          // validasi RHF + Zod tetap jalan
+                onChange(e.target.value);  // lapor ke parent hanya saat user mengetik
+              }}
+            />
           </div>
-            {errors.query && (
-              <p className="mt-xs text-xs text-red-500">{errors.query.message}</p>
-            )}
+          {errors.query && (
+            <p className="mt-xs text-xs text-red-500">{errors.query.message}</p>
+          )}
         </div>
       </div>
     </header>

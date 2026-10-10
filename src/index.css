@@ -138,5 +138,22 @@ body {
   font-family: var(--font-poppins);
 }
 
+.movie-search-input:-webkit-autofill,
+.movie-search-input:-webkit-autofill:hover,
+.movie-search-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  box-shadow: 0 0 0 1000px #0a0d12 inset;
+  transition: background-color 9999s ease-out;
+}
+
+.newsletter-email:-webkit-autofill,
+.newsletter-email:-webkit-autofill:hover,
+.newsletter-email:-webkit-autofill:focus,
+.newsletter-email:-webkit-autofill:active {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0 1000px #0a0d12 inset;
+  transition: background-color 9999s ease-out;
+}
+
 
 
