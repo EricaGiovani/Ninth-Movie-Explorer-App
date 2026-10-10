@@ -17,7 +17,7 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
   } = useForm<SearchFormValues>({
     resolver: zodResolver(searchSchema),
     mode: 'onChange',
-    defaultValues: { query: value }, // hanya nilai awal saat komponen muncul
+    defaultValues: { query: value }, 
   });
 
   const { onChange: onFieldChange, ...field } = register('query');
@@ -41,11 +41,11 @@ export function SearchBar({ value, onChange, onBack }: SearchBarProps) {
               placeholder="Search Movie"
               autoFocus
               aria-invalid={!!errors.query}
-              className="border-0 bg-transparent px-0 text-sm md:text-md text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
+              className="search-input border-0 bg-transparent px-0 text-sm md:text-md text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
               {...field}
               onChange={(e) => {
-                onFieldChange(e);          // validasi RHF + Zod tetap jalan
-                onChange(e.target.value);  // lapor ke parent hanya saat user mengetik
+                onFieldChange(e);          
+                onChange(e.target.value); 
               }}
             />
           </div>

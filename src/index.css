@@ -155,5 +155,14 @@ body {
   transition: background-color 9999s ease-out;
 }
 
+.search-input:-webkit-autofill,
+.search-input:-webkit-autofill:hover,
+.search-input:-webkit-autofill:focus,
+.search-input:-webkit-autofill:active {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0 1000px #0a0d12 inset;
+  transition: background-color 9999s ease-out;
+}
+
 
 

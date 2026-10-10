@@ -23,10 +23,8 @@ export function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState<Option>('default');
 
-  // URL = satu-satunya sumber kata kunci (Navbar desktop & SearchBar mobile sama-sama menulis ke sini)
   const query = searchParams.get('q') ?? '';
 
-  // Reset ke halaman 1 setiap kata kunci berubah
   const [searchPages, setSearchPages] = useState([1]);
   const [prevQuery, setPrevQuery] = useState(query);
   if (query !== prevQuery) {
@@ -58,7 +56,6 @@ export function SearchPage() {
     }
   };
 
-  // Dipakai SearchBar mobile (live typing) -> tulis ke URL tanpa menambah history
   const handleInputChange = useCallback(
     (value: string) => {
       if (value === query) return;
@@ -88,10 +85,9 @@ export function SearchPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Mobile saja (<md). Di md ke atas pakai search bar Navbar */}
       {isMobile && (
-  <SearchBar value={query} onChange={handleInputChange} onBack={handleBack} />
-)}
+        <SearchBar value={query} onChange={handleInputChange} onBack={handleBack} />
+      )}
       
 
       <main className="px-2xl md:px-11xl py-4xl md:pt-[140px] md:pb-6xl min-h-[calc(100vh_-_80px)]">

@@ -34,7 +34,7 @@ export function Navbar() {
     formState: { errors },
   } = useForm<SearchFormValues>({
     resolver: zodResolver(searchSchema),
-    values: { query: urlQuery }, // input otomatis mengikuti ?q= di URL
+    values: { query: urlQuery }, 
   });
 
   const currentQuery = useWatch({ control, name: 'query' });
@@ -78,28 +78,25 @@ export function Navbar() {
           {/* Search Desktop */}
           <div className="hidden md:flex flex-col">
             <form
-  onSubmit={handleSubmit(onSubmitSearch)}
-  className="relative flex items-center gap-2 bg-gray-950 border border-gray-800 rounded-2xl px-xl py-md w-64"
->
-  <img src={searchIcon} alt="Search icon" className="w-6 h-6 shrink-0" />
-  <Input
-    type="text"
-    placeholder="Search Movie"
-    aria-invalid={!!errors.query}
-    className="movie-search-input min-w-0 flex-1 border-0 bg-transparent px-0 text-md font-regular text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
-    {...register('query')}
-  />
-  {currentQuery && (
-    <button
-      type="button"
-      onClick={handleClear}
-      aria-label="Hapus pencarian"
-      className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-700 text-xs leading-none text-gray-25 hover:bg-gray-600"
-    >
-      ✕
-    </button>
-  )}
-</form>
+              onSubmit={handleSubmit(onSubmitSearch)}
+              className="relative flex items-center gap-2 bg-gray-950 border border-gray-800 rounded-2xl px-xl py-md w-64">
+              <img src={searchIcon} alt="Search icon" className="w-6 h-6 shrink-0" />
+              <Input
+                type="text"
+                placeholder="Search Movie"
+                aria-invalid={!!errors.query}
+                className="movie-search-input min-w-0 flex-1 border-0 bg-transparent px-0 text-md font-regular text-white shadow-none placeholder:text-gray-400 focus-visible:ring-0"
+              {...register('query')}/>
+              {currentQuery && (
+                <button
+                  type="button"
+                  onClick={handleClear}
+                  aria-label="Hapus pencarian"
+                  className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-700 text-xs leading-none text-gray-25 hover:bg-gray-600">
+                  ✕
+                </button>
+              )}
+            </form>
             {errors.query && (
               <p className="mt-xs text-xs text-red-500">{errors.query.message}</p>
             )}
